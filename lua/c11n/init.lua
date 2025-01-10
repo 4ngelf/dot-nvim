@@ -1,8 +1,13 @@
--- This is the editor module
--- This later will be core of the configuration. And have functions
--- to modify features, initialize the configuration and apply defaults.
+---# Base configuration module
+---
+---This module contains the basic logic and data
+---to use the configuration without rocks dependencies. It also includes
+---the bootstraping code for rocks.nvim
+local M = {}
 
-return {}
+--require("c11n.rocks").ensure_rocks()
+
+return M
 
 --[[
 local globals = vim.go
