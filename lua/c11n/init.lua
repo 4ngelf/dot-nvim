@@ -9,6 +9,12 @@ local M = {}
 local U = require("c11n.util")
 local const = require("c11n.const")
 
+---Logs a message for c11n
+---@param s string
+local function log(s)
+  vim.notify("c11n: "..s)
+end
+
 function M.init() 
   -- Initialization
   U.initialize({
@@ -16,9 +22,15 @@ function M.init()
     "c11n.editor"
   })
 
-  if not const.use_rocks then 
-    vim.notify("Rocks plugins are currently disabled")
-  end
+  vim.schedule(function()
+    if vim.env.NVIM_APPNAME then
+      log("Using alternative configuration: " .. vim.env.NVIM_APPNAME)
+    end
+
+    if not const.use_rocks then 
+      log("Rocks plugins are currently disabled")
+    end
+  end)
 end
 
 -- Allows checking that this configuration is loaded

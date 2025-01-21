@@ -13,13 +13,6 @@ if vim.fn.has(nvim_version) == 0 then
   return {}
 end
 
--- Run after vim initialization
-vim.schedule(function()
-  if vim.env.NVIM_APPNAME then
-    vim.notify("Using alternative configuration: " .. vim.env.NVIM_APPNAME)
-  end
-end)
-
 -- Bootstrap configuration (c11n is an alias for 'configuration')
 require("c11n").init()
 
