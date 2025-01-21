@@ -26,3 +26,13 @@ still being easy to modify and manage.
 
 [nvim.commands.help]: https://neovim.io/doc/user/cmdline.html#cmdline
 [nvim.standardpaths.help]: https://neovim.io/doc/user/starting.html#_standard-paths
+
+## Install
+
+Clone the repository.
+
+```sh
+git clone git@github.com:4ngelf/nvim.git "${XDG_CONFIG_HOME}/nvim"
+```
+
+See also: [`:help standard-path`](https://neovim.io/doc/user/starting.html#_standard-paths)
