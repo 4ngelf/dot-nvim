@@ -36,4 +36,11 @@ function M.partial(fn, ...)
   end
 end
 
+---Logs a message for c11n
+---@param s string
+---@param level integer
+function M.notify(s, level)
+  vim.notify("c11n: "..s, level)
+end
+
 return M
