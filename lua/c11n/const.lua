@@ -1,22 +1,34 @@
----Some constant data
+---@module c11n.const
+---Constant information about the current neovim instance
+local M = {}
+
+local U = require("c11n.util")
 
 local uv = vim.uv or vim.loop
 local fn = vim.fn
 local fs = vim.fs
 
-local norocks_file = fs.joinpath(fn.stdpath("config"), "norocks")
+---If this file exists, neovim will ignore rocks plugins
+local NOROCKS_FILE = fs.joinpath(fn.stdpath("config"), "norocks")
 
-local M = {}
+---Whether a feature is available
+---@param feature string Feature to check
+---@return bool
+local function feat(feature)
+  return fn.has(feature) == 1
+end
 
 ---Current platform
 M.platform = {
-  ---Is Windows
-  windows = fn.has("win64") == 1 or fn.has("win32") == 1,
   ---Is Unix-like
-  unix = fn.has("linux") == 1 or fn.has("unix") == 1 or fn.has("wsl") == 1
+  unix = feat("linux") or feat("unix"),
+  ---Is Windows
+  windows = feat("win64") or feat("win32"),
+  ---Is Windows but it is wsl
+  wsl = feat("wsl"),
 }
 
 ---Whether to use rocks.nvim and rocks packages
-M.use_rocks = uv.fs_stat(norocks_file) == nil
+M.use_rocks = (uv.fs_stat(NOROCKS_FILE) == nil and vim.env.NO_ROCKS == nil)
 
 return M

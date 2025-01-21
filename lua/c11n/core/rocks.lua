@@ -1,9 +1,11 @@
----[[
---- Operations related to rocks.nvim
+---@mod c11n.rocks
+---@brief [[
 ---
---- NOTE: As this module may be run when rocks.nvim is not installed yet
----       it is better not to use libraries.
----]]
+--- Operations related to rocks.nvim
+--- 
+---@brief ]]
+---
+---NOTE: part of the code comes from https://raw.githubusercontent.com/nvim-neorocks/rocks.nvim/master/bootstrap.lua
 
 local rocks_binaries_supported_arch_map = {
     Darwin = {
@@ -18,6 +20,7 @@ local rocks_binaries_supported_arch_map = {
         x86_64 = "win32-x86_64",
     },
 }
+
 local uname = vim.uv.os_uname()
 local supported_arch = rocks_binaries_supported_arch_map[uname.sysname][uname.machine]
 
