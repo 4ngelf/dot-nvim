@@ -1,9 +1,7 @@
----@module c11n
 --- # Base configuration module
 ---
---- This module contains the basic logic and data
---- to use the configuration without rocks dependencies. It also includes
---- the bootstraping code for rocks.nvim
+--- This is the configuration module which makes all the magic work.
+--- In code 'configuration' is abbreviated as 'c11n.'
 local M = {}
 
 local U = require("c11n.util")
