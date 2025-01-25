@@ -1,18 +1,8 @@
 --- Relative require function. This is a function to make lua module management
---- a little less cumbersome. Inspired in python's "from ... import ...", this
+--- a little bit nicer. Inspired in python's "from ... import ..." syntax, this
 --- is a function that allows to load modules with a relative path.
 ---
 --- # Usage
----
---- With this project structure:
---- ```
---- lua/
----   another.lua
----   foo/
----     init.lua
----     baz.lua
----   init.lua
---- ```
 ---
 ---```lua
 --- -- In entry point (init.lua)
@@ -22,8 +12,21 @@
 --- -- Now you can use it in the whole project!
 --- ```
 ---
+--- With this project structure:
+--- ```
+--- lua/
+---   foo/
+---     another.lua
+---     bar/
+---       init.lua
+---       baz.lua
+---     init.lua
+--- ```
+---
+--- You can make declare a module and use require() relative to that module:
+---
 --- ```lua
----  -- In module "foo.bar"
+---  -- lua/foo/bar.lua
 ---  -- At file top:
 ---  local M = M(...)
 ---  -- or write the module path if you are outside the root scope of the file:
@@ -38,7 +41,7 @@
 ---  local self = M.require(".") -- is require("foo.bar") too
 ---  local self = M.require("...foo.bar") -- is also require("foo.bar")
 --- 
----  -- It only includes require(...) function to M so you can use it as a
+---  -- It only includes require(...) function to M so you can use M as a
 ---  -- normal module
 ---  function M.some_function() end
 ---  M.some_number = 123
@@ -48,14 +51,14 @@
 ---
 --- # Caveats
 ---
---- ```lua
---- -- If you declare M(...) with a module path different from the current
---- -- module, you will get unexpected results.
+--- If you declare `M(...)` with a module path different from the current
+--- module, you will get unexpected results.
 ---
+--- ```lua
 --- -- In module "foo.bar"
 --- local M = M("foo")
 ---
---- -- This will return require("foo.baz"), not require("foo.bar.baz")
+--- -- This will return module "foo.baz", not module "foo.bar.baz"
 --- baz = M.require("baz")
 --- ```
 local M = {}
