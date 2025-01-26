@@ -6,6 +6,7 @@
 ---@brief ]]
 ---
 ---NOTE: part of the code comes from https://raw.githubusercontent.com/nvim-neorocks/rocks.nvim/master/bootstrap.lua
+local M = M(...)
 
 local rocks_binaries_supported_arch_map = {
     Darwin = {
@@ -105,7 +106,6 @@ local function install_rocks_nvim()
 
 end
 
-local M = {}
 
 ---Install rocks.nvim if necessary
 ---@return bool success

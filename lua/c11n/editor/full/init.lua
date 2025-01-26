@@ -1,6 +1,6 @@
----@module c11.editor.full
----Editor control WITH plugins
-local M = {}
+---@class c11.editor.full
+--- Editor control WITH plugins
+local M = M(...)
 
 function M.init()
 end

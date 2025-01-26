@@ -2,37 +2,43 @@
 ---
 --- This is the configuration module which makes all the magic work.
 --- In code 'configuration' is abbreviated as 'c11n.'
-local M = {}
-
+local M = M(...)
 local U = require("c11n.util")
-local const = require("c11n.const")
+local C = require("c11n.const")
 
---Re-exports
-M.notify = U.notify
+local startup_notifications = {}
 
-local function notify_relevant()
-  if vim.env.NVIM_APPNAME then
-    M.notify("Using alternative configuration: " .. vim.env.NVIM_APPNAME)
+--- Get information about startup
+---@return string[]
+function M.startup_notifications()
+  if #startup_notifications == 0 then
+    if vim.env.NVIM_APPNAME then
+      table.insert(
+        startup_notifications,
+        "Using alternative configuration: " .. vim.env.NVIM_APPNAME)
+    end
+
+    if not C.use_rocks then 
+      table.insert(
+        startup_notifications,
+        "Rocks plugins are currently disabled")
+    end
   end
 
-  if not const.use_rocks then 
-    M.notify("Rocks plugins are currently disabled")
-  end
+  return startup_notifications
 end
 
 function M.init() 
   -- Initialization
   U.initialize({
-    "c11n.external",
-    "c11n.editor"
+    M.require("external"),
+    M.require("editor"),
   })
 
-  vim.schedule(notify_relevant)
-end
-
--- Allows checking that this configuration is loaded
-if not vim.g.loaded_c11n then
-  vim.g.loaded_c11n = true
+  vim.schedule(function()
+    local notifications = M.startup_notifications()
+    vim.notify(table.concat(notifications, "\n"))
+  end)
 end
 
 return M

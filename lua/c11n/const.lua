@@ -1,7 +1,6 @@
 ---@module c11n.const
 ---Constant information about the current neovim instance
-local M = {}
-
+local M = M(...)
 local U = require("c11n.util")
 
 local uv = vim.uv or vim.loop

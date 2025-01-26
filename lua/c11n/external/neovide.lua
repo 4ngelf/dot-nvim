@@ -1,5 +1,5 @@
 ---@module c11n.external.neovide
-local M = {}
+local M = M(...)
 
 ---Sets a global (g:) variable.
 local g = vim.api.nvim_set_var

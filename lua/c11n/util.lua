@@ -1,11 +1,14 @@
----@module c11n.util
-local M = {}
+---@class c11n.util
+local M = M(...)
+
+--- Lua types utilities
+M.data = {}
 
 ---Wraps any lua type into a table
 ---@param value any
 ---@param key string? Optional key for value in the table
 ---@return table wrapped Wrapped value
-function M.wrap(value, key)
+function M.data.tbl_wrap(value, key)
   if type(value) == "table" then
     return value
   elseif key ~= nil then
@@ -15,32 +18,29 @@ function M.wrap(value, key)
   end
 end
 
----Loads and runs init() on all given modules in order
----@param modules string|string[]
-function M.initialize(modules)
-  local mods = M.wrap(modules)
-  for _, mod in ipairs(mods) do
-    require(mod).init()
-  end
-end
-
 ---Partially applies a function
 ---@generic A
 ---@param fn fn(...):A
 ---@param ... any?
 ---@return fn(...):A
-function M.partial(fn, ...)
+function M.data.partial(fn, ...)
   local args = {...}
   return function(...)
     return fn(unpack(args), ...)
   end
 end
 
----Logs a message for c11n
----@param s string
----@param level integer
-function M.notify(s, level)
-  vim.notify("c11n: "..s, level)
+---Loads and runs init() on all given modules in order
+---@param modules Module|Module[] Modules to initialize
+function M.initialize(modules)
+  modules = M.data.tbl_wrap(modules)
+  table.foreach(modules, function(_, mod)
+    if mod.init then
+      mod.init()
+    else
+      error("Given module has no init() method")
+    end
+  end)
 end
 
 return M
