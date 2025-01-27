@@ -16,14 +16,15 @@ M.DEFAULT_SETTINGS = {
     ---@type string
     language = "en_US",
     ---@type string
-    mapleader = vim.keycode "<Space>"
+    mapleader = vim.keycode "<Space>",
     ---@type string
-    maplocalleader = vim.keycode "<BS>"
+    maplocalleader = vim.keycode "<BS>",
+    --- Uses treesitter folding. If not available or false, use "marker"
+    ---@type bool
+    treesitter_folding = true,
   },
   ---@type { string: any }
   option = {},
-  ---@type c11n.Settings.KeymapGroup[]
-  keymap = {},
 }
 
 ---@type { string: any }
@@ -40,7 +41,6 @@ M.DEFAULT_SETTINGS.option = {
   smartindent = true,
 
   --Folding
-  foldmethod = "marker",
   foldenable = true,
   foldnestmax = 3,
   foldlevelstart = 99,
@@ -70,13 +70,17 @@ M.DEFAULT_SETTINGS.option = {
   spelllang = { "en" },
 }
 
+--TODO: Move keymaps to its own module, since this table won't represent what's
+--actually applied on current buffer nor it is able to inspect mappings per
+--buffer basis. It's also expected to add more keymaps by autocommands, all
+--buffers keymaps will be undesirable merged on this table.
+
 ---@class c11n.Settings.KeymapGroup
 ---@field [1] c11n.Settings.Keymap[] List of keymaps to create
 ---@field group? string Group for keymap definitions. Default: "c11n.misc"
 ---@field mode? string|string[] mode. Default: "n"
 ---@field noremap? bool Disables recursive_mapping. Default: true
 ---@field replace_keycodes? bool Replace keycodes in final string. Default: true
----@field buffer? integer|boolean Creates buffer-local mapping. 0 or true for current buffer
 
 ---@class c11n.Settings.Keymap
 ---@field [1] string lhs
@@ -85,7 +89,7 @@ M.DEFAULT_SETTINGS.option = {
 ---@field mode? string|string[]
 
 ---@type c11n.Settings.KeymapGroup[]
-M.DEFAULT_SETTINGS.keymap = {
+M.keymap = {
   {
     {
       -- Scrolling
