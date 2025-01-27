@@ -32,6 +32,7 @@ function M.init()
   -- Initialization
   U.initialize({
     M.require("external"),
+    M.require("rocks"),
     M.require("editor"),
   })
 

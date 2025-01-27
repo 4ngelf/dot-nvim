@@ -117,4 +117,8 @@ function M.ensure_rocks()
   return true
 end
 
+function M.init()
+  -- TODO: Initialization if rocks.nvim is installed
+end
+
 return M
