@@ -1,3 +1,3 @@
----@class c11n.plugins
+---@class plugins
 --- Configuration scripts for plugins. As defined by 'rocks-config.nvim'
 --- See 'rocks.toml' for a complete list of plugins.

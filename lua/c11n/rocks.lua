@@ -117,8 +117,11 @@ function M.ensure_rocks()
   return true
 end
 
-function M.init()
-  -- TODO: Initialization if rocks.nvim is installed
+--- Checks whether rocks.nvim is available for use
+---@return bool
+function M.available()
+  -- TODO:
+  return false
 end
 
 return M

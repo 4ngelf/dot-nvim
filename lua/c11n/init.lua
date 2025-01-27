@@ -29,12 +29,11 @@ function M.startup_notifications()
 end
 
 function M.init() 
+  -- TODO: Run local configuration before initialization
+
   -- Initialization
-  U.initialize({
-    M.require("external"),
-    M.require("rocks"),
-    M.require("editor"),
-  })
+  M.require("external").init()
+  M.require("editor").init()
 
   vim.schedule(function()
     local notifications = M.startup_notifications()

@@ -1,13 +1,15 @@
----@module c11n-external
----Make adjustements for external programs
+--- Make adjustements for external programs
 local M = M(...)
-local U = require("c11n.util")
-local C = require("c11n.const")
+
+---@type string[]
+local externals = {
+  "neovide",
+}
 
 function M.init() 
-  U.initialize({
-    M.require("neovide"),
-  })
+  table.foreach(externals, function(_, external) 
+    M.require(external).init()
+  end)
 end
 
 return M

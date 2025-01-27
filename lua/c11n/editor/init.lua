@@ -1,10 +1,9 @@
----@class c11n.editor
---- This is the module that controls the nvim text editor
+--- nvim editor management
 local M = M(...)
-local C = require("c11n.const")
+local rocks = require("c11n.rocks")
 
-if C.use_rocks then
-  return M.require("full")
+if rocks.available() then
+  return M.require("extra")
 else
   return M.require("base")
 end

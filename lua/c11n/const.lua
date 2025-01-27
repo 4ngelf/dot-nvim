@@ -1,14 +1,8 @@
----@module c11n.const
----Constant information about the current neovim instance
+--- Constant information about the current neovim instance
 local M = M(...)
-local U = require("c11n.util")
 
-local uv = vim.uv or vim.loop
 local fn = vim.fn
-local fs = vim.fs
-
----If this file exists, neovim will ignore rocks plugins
-local NOROCKS_FILE = fs.joinpath(fn.stdpath("config"), "norocks")
+local k = vim.keycode
 
 ---Whether a feature is available
 ---@param feature string Feature to check
@@ -16,6 +10,38 @@ local NOROCKS_FILE = fs.joinpath(fn.stdpath("config"), "norocks")
 local function feat(feature)
   return fn.has(feature) == 1
 end
+
+---@class c11n.Settings
+local DEFAULT_SETTINGS = {
+  --- Preferred colorscheme. Priority from left to right.
+  ---@type string[]
+  colorscheme = {
+    "catppuccin-frappe",
+    "catppuccin",
+    "habamax",
+    "default"
+  },
+  ---@type string
+  language = "en_US",
+  ---@type string
+  mapleader = vim.keycode "<Space>",
+  ---@type string
+  maplocalleader = vim.keycode "<BS>",
+  --- Uses treesitter folding. If not available or false, use "marker"
+  ---@type bool
+  treesitter_folding = true,
+  --- Whether rocks.nvim and rocks packages should be used
+  ---@type bool
+  use_rocks = true,
+}
+
+---@class c11n.UserSettings
+---@field colorscheme? string[]
+---@field language? string
+---@field mapleader? string
+---@field maplocalleader? string
+---@field treesitter_folding? bool
+M.settings = vim.tbl_deep_extend("force", {}, DEFAULT_SETTINGS, vim.g.c11n_settings or {})
 
 ---Current platform
 M.platform = {
@@ -27,7 +53,12 @@ M.platform = {
   wsl = feat("wsl"),
 }
 
----Whether to use rocks.nvim and rocks packages
-M.use_rocks = (uv.fs_stat(NOROCKS_FILE) == nil and vim.env.NO_ROCKS == nil)
+-- Give priority if vim.env.NO_ROCKS is defined
+if vim.env.NO_ROCKS ~= nil then
+  M.settings.use_rocks = false
+end
+
+-- shorcut to M.settings.use_rocks
+M.use_rocks = M.settings.use_rocks
 
 return M

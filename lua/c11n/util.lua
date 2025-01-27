@@ -30,17 +30,4 @@ function M.data.partial(fn, ...)
   end
 end
 
----Loads and runs init() on all given modules in order
----@param modules Module|Module[] Modules to initialize
-function M.initialize(modules)
-  modules = M.data.tbl_wrap(modules)
-  table.foreach(modules, function(_, mod)
-    if mod.init then
-      mod.init()
-    else
-      error("Given module has no init() method")
-    end
-  end)
-end
-
 return M

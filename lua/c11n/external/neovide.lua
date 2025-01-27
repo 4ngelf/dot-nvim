@@ -1,4 +1,4 @@
----@module c11n.external.neovide
+--- Neovide settings
 local M = M(...)
 
 ---Sets a global (g:) variable.

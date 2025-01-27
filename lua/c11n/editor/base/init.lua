@@ -1,8 +1,8 @@
----@class c11.editor.base
---- Editor control without plugins
+--- Editor without plugins
 local M = M(...)
-local U = require("c11n.util")
-local C = require("c11n.const")
+
+M.keymaps = M.require("keymaps").keymaps
+M.options = M.require("options").options
 
 function M.init()
 end

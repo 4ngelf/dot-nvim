@@ -1,95 +1,21 @@
----@class c11n.settings.default
+--- Basic Keymappings
 local M = M(...)
 
----@class c11n.Settings
-M.DEFAULT_SETTINGS = {
-  ---@class c11n.Settings.Editor
-  editor = {
-    --- Preferred colorscheme. Priority from left to right.
-    ---@type string[]
-    colorscheme = {
-      "catppuccin-frappe",
-      "catppuccin",
-      "habamax",
-      "default"
-    },
-    ---@type string
-    language = "en_US",
-    ---@type string
-    mapleader = vim.keycode "<Space>",
-    ---@type string
-    maplocalleader = vim.keycode "<BS>",
-    --- Uses treesitter folding. If not available or false, use "marker"
-    ---@type bool
-    treesitter_folding = true,
-  },
-  ---@type { string: any }
-  option = {},
-}
-
----@type { string: any }
-M.DEFAULT_SETTINGS.option = {
-  --Scrolling
-  number = true,
-  relativenumber = true,
-  scrolloff = 8,
-
-  --Tabs
-  expandtab = true,
-  shiftwidth = 4,
-  tabstop = 4,
-  smartindent = true,
-
-  --Folding
-  foldenable = true,
-  foldnestmax = 3,
-  foldlevelstart = 99,
-
-  --Search
-  ignorecase = true,
-  smartcase = true,
-  showmatch = true,
-  hlsearch = false,
-
-  --Windows
-  splitbelow = true,
-  splitright = true,
-
-  --Wild Menu
-  wildmenu = true,
-  wildmode = "longest:full,full",
-
-  --Formatting
-  formatoptions = "tcro/q2lj", -- default: tcqj
-  textwidth = 100,
-  wrap = false,
-  joinspaces = false,
-
-  --System
-  termguicolors = true,
-  spelllang = { "en" },
-}
-
---TODO: Move keymaps to its own module, since this table won't represent what's
---actually applied on current buffer nor it is able to inspect mappings per
---buffer basis. It's also expected to add more keymaps by autocommands, all
---buffers keymaps will be undesirable merged on this table.
-
----@class c11n.Settings.KeymapGroup
+---@class c11n.KeymapGroup
 ---@field [1] c11n.Settings.Keymap[] List of keymaps to create
 ---@field group? string Group for keymap definitions. Default: "c11n.misc"
 ---@field mode? string|string[] mode. Default: "n"
 ---@field noremap? bool Disables recursive_mapping. Default: true
 ---@field replace_keycodes? bool Replace keycodes in final string. Default: true
 
----@class c11n.Settings.Keymap
+---@class c11n.Keymap
 ---@field [1] string lhs
 ---@field [2] string|fun() rhs
 ---@field desc? string Description of mapping
 ---@field mode? string|string[]
 
 ---@type c11n.Settings.KeymapGroup[]
-M.keymap = {
+M.keymaps = {
   {
     {
       -- Scrolling
