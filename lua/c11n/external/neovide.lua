@@ -1,5 +1,5 @@
 --- Neovide settings
-local M = M(...)
+local M = {}
 
 ---Sets a global (g:) variable.
 local g = vim.api.nvim_set_var

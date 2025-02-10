@@ -10,8 +10,5 @@ if vim.fn.has(nvim_version) == 0 then
   return {}
 end
 
--- Load function M
-M = require("function_M").get_M(require)
-
--- Bootstrap configuration (c11n is an alias for 'configuration')
+-- Initialize configuration (c11n is an alias for 'configuration')
 require("c11n").init()

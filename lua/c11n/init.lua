@@ -1,44 +1,48 @@
---- # Base configuration module
----
---- This is the configuration module which makes all the magic work.
---- In code 'configuration' is abbreviated as 'c11n.'
-local M = M(...)
-local U = require("c11n.util")
-local C = require("c11n.const")
+--- Initialization and utilities.
+--- In code 'configuration' is abbreviated as 'c11n'
+local M = {}
 
-local startup_notifications = {}
+local Const = require("c11n.const")
+local Util = require("c11n.util")
 
---- Get information about startup
----@return string[]
-function M.startup_notifications()
-  if #startup_notifications == 0 then
-    if vim.env.NVIM_APPNAME then
-      table.insert(
-        startup_notifications,
-        "Using alternative configuration: " .. vim.env.NVIM_APPNAME)
-    end
-
-    if not C.use_rocks then 
-      table.insert(
-        startup_notifications,
-        "Rocks plugins are currently disabled")
-    end
+--- Notifications about nvim current state
+local run_notifications = vim.schedule_wrap(function()
+  local notify = function(msg)
+    vim.api.nvim_echo(msg, true, {})
   end
 
-  return startup_notifications
-end
+  if vim.env.NVIM_APPNAME then
+    notify {
+      {"Using alternative configuration: ", "MsgArea"},
+      {vim.env.NVIM_APPNAME, "Title"}
+    }
+  end
 
+  if not vim.g.c11n_lazy then
+    notify {
+      { "Warning: ", "WarningMsg"},
+      { "Lazy and plugins loaded by Lazy are currently disabled", "MsgArea"}
+    }
+  end
+end)
+
+--- Initialization
 function M.init() 
-  -- TODO: Run local configuration before initialization
+  require("c11n.external").init()
 
-  -- Initialization
-  M.require("external").init()
-  M.require("editor").init()
+  local Lazy = require("c11n.lazy")
+  -- Lazy.try_install()
+  if Const.settings.use_lazy and true then
+    -- Lazy.setup()
+    vim.notify("did setup")
+  else
+    require("c11n.fallback").init()
+  end
 
-  vim.schedule(function()
-    local notifications = M.startup_notifications()
-    vim.notify(table.concat(notifications, "\n"))
-  end)
+  Util.load_colorscheme(Const.settings.colorscheme)
+  vim.cmd.language(Const.settings.language)
+
+  run_notifications()
 end
 
 return M

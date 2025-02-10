@@ -1,3 +1,3 @@
----@class plugins
---- Configuration scripts for plugins. As defined by 'rocks-config.nvim'
---- See 'rocks.toml' for a complete list of plugins.
+--- Specs and overrides for lazy.nvim plugins.
+---
+--- lazyvim plugins: http://www.lazyvim.org/plugins

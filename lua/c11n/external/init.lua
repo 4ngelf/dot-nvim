@@ -1,5 +1,5 @@
 --- Make adjustements for external programs
-local M = M(...)
+local M = {}
 
 ---@type string[]
 local externals = {
@@ -8,7 +8,7 @@ local externals = {
 
 function M.init() 
   table.foreach(externals, function(_, external) 
-    M.require(external).init()
+    require("c11n.external."..external).init()
   end)
 end
 
