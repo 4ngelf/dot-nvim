@@ -43,22 +43,19 @@ local LAZY_CONFIG = {
   },
 }
 
----@alias NoLazyReason "env" | "uninstalled" | "nolibrary"
+---@alias LazyStatus "ok" | "disabled" | "uninstalled" | "nolibrary"
 
---- Whether lazy is in use.
----
---- This will return true unless lazy is uninstalled or the environment
---- variable 'NO_LAZY' is set.
----@return bool, NoLazyReason?
-function M.using_lazy()
+--- Lazy.nvim installation and usage status
+---@return LazyStatus
+function M.status()
   if (vim.env.NO_LAZY ~= nil) then
-    return false, "env"
+    return "disabled"
   elseif not vim.uv.fs_stat(LAZY_PATH) then
-    return false, "uninstalled"
+    return "uninstalled"
   elseif not pcall(require, "lazy") then
-    return false, "nolibrary"
+    return "nolibrary"
   else
-    return true
+    return "ok"
   end
 end
 
@@ -66,12 +63,13 @@ end
 --- Tries to setups and starts lazy.
 ---@return bool success
 function M.try_install()
-  local using_lazy, reason = M.using_lazy()
-  if reason == "env" then
+  local status = M.status()
+
+  if reason == "disabled" then
     error("Lazy explicitly disabled")
   end
 
-  if not using_lazy then
+  if reason == "uninstalled" then
     local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", LAZY_REPO, LAZY_PATH })
     if vim.v.shell_error ~= 0 then
       vim.api.nvim_echo({

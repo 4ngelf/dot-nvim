@@ -7,7 +7,7 @@ M.editor = require("c11n.util.editor")
 ---@return bool
 function M.has(feature) 
   if feature == "lazy" then
-    return require("c11n.lazy").using_lazy() and true or false
+    return require("c11n.lazy").status() == "ok"
   else
     return vim.fn.has(feature) == 1
   end

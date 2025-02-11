@@ -8,7 +8,8 @@ local Util = require("c11n.util")
 --- Initialization
 function M.init() 
   local Lazy = require("c11n.lazy")
-  if Lazy.using_lazy() then
+
+  if Lazy.status() == "ok" then
     Lazy.setup()
   else
     require("c11n.fallback").init()

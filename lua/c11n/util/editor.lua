@@ -11,9 +11,9 @@ M.run_notifications = vim.schedule_wrap(function()
     table.insert(messages, {("Using alternative configuration: %s\n"):format(vim.env.NVIM_APPNAME), "MsgArea"})
   end
 
-  if not require("c11n.lazy").using_lazy() then
+  if not require("c11n.util").has("lazy") then
     table.insert(messages, { "Warning: ", "WarningMsg"})
-    table.insert(messages, { "Lazy package manager is currently disabled\n", "MsgArea"})
+    table.insert(messages, { "Lazy package manager is currently unused\n", "MsgArea"})
   end
 
   vim.api.nvim_echo(messages, true, {})
