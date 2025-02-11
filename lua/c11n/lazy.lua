@@ -59,10 +59,8 @@ function M.status()
   end
 end
 
---- Tries to installs lazy.nvim, add it to the runtime path,
 --- Tries to setups and starts lazy.
----@return bool success
-function M.try_install()
+function M.setup()
   local status = M.status()
 
   if reason == "disabled" then
