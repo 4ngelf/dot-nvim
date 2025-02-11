@@ -1,5 +1,6 @@
 --- Editor related utilities
 local M = {}
+local Data = require("c11n.util.data")
 
 --- Notifications about nvim current state
 M.run_notifications = vim.schedule_wrap(function()
@@ -7,8 +8,7 @@ M.run_notifications = vim.schedule_wrap(function()
 
   if vim.env.NVIM_APPNAME then
     table.insert(messages, {"Info: ", "Title"})
-    table.insert(messages, {"Using alternative configuration: ", "MsgArea"})
-    table.insert(messages, {vim.env.NVIM_APPNAME.."\n", "Title"})
+    table.insert(messages, {("Using alternative configuration: %s\n"):format(vim.env.NVIM_APPNAME), "MsgArea"})
   end
 
   if not require("c11n.lazy").using_lazy() then
@@ -27,7 +27,7 @@ function M.load_colorscheme(colors)
     return
   end
 
-  colors = require("c11n.util").data.tbl_wrap(colors)
+  colors = Data.tbl_wrap(colors)
 
   for _, color in ipairs(colors) do
     local ok, _ = pcall(vim.cmd.colorscheme, color)
