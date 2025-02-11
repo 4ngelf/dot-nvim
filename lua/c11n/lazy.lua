@@ -62,7 +62,8 @@ function M.using_lazy()
   end
 end
 
---- Tries to installs lazy.nvim and add it to the runtime path.
+--- Tries to installs lazy.nvim, add it to the runtime path,
+--- Tries to setups and starts lazy.
 ---@return bool success
 function M.try_install()
   local using_lazy, reason = M.using_lazy()
@@ -78,20 +79,15 @@ function M.try_install()
         { out, "WarningMsg" },
         { "\nPress any key to exit..." },
       }, true, {})
-
-      return false
+      
+      return
     end
   end
 
   if not vim.tbl_contains(vim.opt.rtp:get(), LAZY_PATH) then
     vim.opt.runtimepath:prepend(LAZY_PATH)
   end
-
-  return true
-end
-
---- Setups and starts lazy
-function M.setup()
+  
   require("lazy").setup(LAZY_CONFIG)
 end
 
