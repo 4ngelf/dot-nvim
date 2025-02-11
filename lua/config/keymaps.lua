@@ -10,7 +10,7 @@
 local keymap = setmetatable({}, {
   __tostring = function(_)
     return "vim.keymap.set"
-  end
+  end,
   __index = function(_, mode) 
     mode = vim.split(mode, "")
     return function(lhs, rhs, desc_or_opts)

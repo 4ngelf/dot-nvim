@@ -15,9 +15,6 @@ local DEFAULT_SETTINGS = {
   },
   ---@type string
   language = "en_US",
-  --- Whether lazy and plugins loaded by it
-  ---@type bool
-  use_lazy = true,
 }
 
 ---@class c11n.UserSettings
@@ -34,10 +31,5 @@ M.platform = {
   ---Is Windows but it is wsl
   wsl = has("wsl"),
 }
-
--- Give priority if vim.env.NO_ROCKS is defined
-if vim.env.NO_LAZY ~= nil then
-  M.settings.use_lazy = false
-end
 
 return M

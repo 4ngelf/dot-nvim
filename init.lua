@@ -10,5 +10,7 @@ if vim.fn.has(nvim_version) == 0 then
   return {}
 end
 
+vim.uv = vim.uv or vim.loop
+
 -- Initialize configuration (c11n is an alias for 'configuration')
 require("c11n").init()

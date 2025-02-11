@@ -1,14 +1,14 @@
 --- Fallback when lazy is not available somehow
 local M = {}
 
-local try_require = function(mod)
-  pcall(require, mod)
-end
-
 function M.init()
-  try_require("config.options")
-  try_require("config.keymaps")
-  try_require("config.autocmds")
+  vim.api.nvim_echo({
+    {"Using fallback implementation. You can install lazyvim with :C11n install_lazy"}
+  }, true, {})
+
+  require("config.options")
+  require("config.keymaps")
+  require("config.autocmds")
 end
 
 return M

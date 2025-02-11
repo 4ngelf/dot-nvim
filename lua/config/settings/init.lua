@@ -1,14 +1,16 @@
---- Make adjustements for external programs
+--- Make adjustements for some events
 local M = {}
 
 ---@type string[]
 local externals = {
+  "neovim",
   "neovide",
+  "localconfig"
 }
 
 function M.init() 
   table.foreach(externals, function(_, external) 
-    require("c11n.external."..external).init()
+    require("config.settings."..external)
   end)
 end
 
