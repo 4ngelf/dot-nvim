@@ -1,8 +1,10 @@
---- Global settings
-require("config.settings").init()
+-- Globals
+vim.g.mapleader = vim.keycode "<Space>"
+vim.g.maplocalleader = "\\"
 
---- Options
-local Util = require("c11n.util")
+vim.g.lazyvim_cmp = "blink.cmp"
+
+-- Options
 local o = vim.opt
 
 -- Scrolling
@@ -32,19 +34,19 @@ o.splitbelow = true
 o.splitright = true
 
 -- System
-o.wildmode = "longest:full,full"
+o.termguicolors = true
+o.spelllang = { "en" }
 o.clipboard = ""
 
---------------------------------------------------------------------------------
 --  NOT LAZY.NVIM
-if not Util.has("lazy") then
+if not require("c11n.util").has("lazy") then
   -- Folding
   o.foldmethod = "marker"
   o.foldenable = true
   o.foldnestmax = 3
   o.foldlevelstart = 99
 
-  -- System
-  o.termguicolors = true
-  o.spelllang = { "en" }
 end
+
+-- Settings for external tools
+require("config.extern").init()

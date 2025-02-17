@@ -1,4 +1,4 @@
---- Framework for C11n command
+--- Management for editor
 local M = {}
 
 -- TODO: Add capability to add subcommands

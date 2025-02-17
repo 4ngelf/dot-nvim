@@ -12,5 +12,5 @@ end
 
 vim.uv = vim.uv or vim.loop
 
--- Initialize configuration (c11n is an alias for 'configuration')
+-- Initialize configuration (c11n)
 require("c11n").init()

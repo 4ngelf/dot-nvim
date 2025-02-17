@@ -1,26 +1,27 @@
---- Initialization and utilities.
---- In code 'configuration' is abbreviated as 'c11n'
+--- Initialization and utilities for configuration (c11n)
 local M = {}
 
-local Const = require("c11n.const")
-local Util = require("c11n.util")
-
---- Initialization
+--- Initialize editor configuration
 function M.init() 
   local Lazy = require("c11n.lazy")
+  local Settings = require("c11n.settings")
+  local Util = require("c11n.util")
 
+  -- Try to setup lazyvim
   if Lazy.status() == "ok" then
     Lazy.setup()
   else
     require("c11n.fallback").init()
   end
 
-  Util.editor.load_colorscheme(Const.settings.colorscheme)
-  vim.cmd.language(Const.settings.language)
+  -- Apply settings
+  vim.schedule(function()
+    Util.load_colorscheme(Settings.colorscheme)
+    vim.cmd.language(Settings.language)
+  end)
 
-  Util.editor.run_notifications()
-
-  require('c11n.command').init()
+  -- Load management utilities
+  require('c11n.management').init()
 end
 
 return M
