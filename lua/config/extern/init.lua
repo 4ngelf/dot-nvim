@@ -2,6 +2,7 @@ local M = {}
 
 ---@type string[]
 local externals = {
+  "windows",
   "neovide",
   "localconfig",
 }
