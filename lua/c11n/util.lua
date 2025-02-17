@@ -1,7 +1,5 @@
 --- Utilities
 local M = {}
-M.data = require("c11n.util.data")
-M.editor = require("c11n.util.editor")
 
 --- Checks feature availability. Fallbacks to vim.fn.has()
 ---@return bool
