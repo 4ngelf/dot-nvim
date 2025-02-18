@@ -35,7 +35,7 @@ local function _make_logger(level, msg_prefix)
   end
 end
 
-local _loggers = {
+local _log = {
   debug = _make_logger(vim.log.levels.DEBUG, { " DEBUG ", "Visual" }),
   error = _make_logger(vim.log.levels.ERROR, { " ERROR ", "ErrorMsg" }),
   info  = _make_logger(vim.log.levels.INFO, { " INFO ", "Visual" }),
@@ -43,8 +43,7 @@ local _loggers = {
   warn  = _make_logger(vim.log.levels.WARN, { " WARN ", "WarningMsg" }),
 }
 
-M.log = setmetatable({}, {
-  __index = _loggers,
+M.log = setmetatable(_log, {
   __call = function(t, msg) 
     return t.info(msg)
   end
