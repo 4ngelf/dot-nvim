@@ -15,10 +15,8 @@ function M.init()
   end
 
   -- Apply settings
-  vim.schedule(function()
-    Util.load_colorscheme(Settings.colorscheme)
-    vim.cmd.language(Settings.language)
-  end)
+  Util.load_colorscheme(Settings.colorscheme)
+  vim.cmd.language(Settings.language)
 
   -- Load management utilities
   require('c11n.management').init()
