@@ -11,7 +11,15 @@ local LAZY_PATH = vim.fs.joinpath(vim.fn.stdpath("data"), "lazy", "lazy.nvim")
 local LAZY_CONFIG = {
   spec = {
     -- add LazyVim and import its plugins
-    { "LazyVim/LazyVim", import = "lazyvim.plugins" },
+    {
+      "LazyVim/LazyVim",
+      import = "lazyvim.plugins",
+      opts = {
+        defaults = {
+          autocmds = false
+        },
+      },
+    },
     -- import/override with your plugins
     { import = "plugins" },
   },
