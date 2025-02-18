@@ -27,7 +27,7 @@ end
 
 local function _make_logger(level, msg_prefix)
   return function(msg)
-    if require("c11n.lazy").status() == "ok" then
+    if pcall(require, "lazy") then
       vim.notify(msg, level)
     else
       vim.api.nvim_echo({ msg_prefix, {" "}, { msg } }, true, {})
