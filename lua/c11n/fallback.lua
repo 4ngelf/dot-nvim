@@ -2,9 +2,7 @@
 local M = {}
 
 function M.init()
-  vim.api.nvim_echo({
-    {"Using fallback implementation. You can install lazyvim with :C11n install_lazy"}
-  }, true, {})
+  require("c11n.util").log "Using fallback implementation. You can install lazyvim with :C11n install_lazy"
 
   for _, plugin in ipairs(require("c11n.settings").disabled_plugins) do
     vim.g["loaded_"..plugin] = true

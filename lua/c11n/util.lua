@@ -39,6 +39,31 @@ function M.tbl_wrap(value, key)
   end
 end
 
+local function _make_logger(level, msg_prefix)
+  return function(msg)
+    if require("c11n.lazy").status() == "ok" then
+      vim.notify(msg, level)
+    else
+      vim.api.nvim_echo({ msg_prefix, {" "}, { msg } }, true, {})
+    end
+  end
+end
+
+local _loggers = {
+  debug = _make_logger(vim.log.levels.DEBUG, { " DEBUG ", "Visual" }),
+  error = _make_logger(vim.log.levels.ERROR, { " ERROR ", "ErrorMsg" }),
+  info  = _make_logger(vim.log.levels.INFO, { " INFO ", "Visual" }),
+  trace = _make_logger(vim.log.levels.TRACE, { " TRACE ", "Normal" }),
+  warn  = _make_logger(vim.log.levels.WARN, { " WARN ", "WarningMsg" }),
+}
+
+M.log = setmetatable({}, {
+  __index = _loggers,
+  __call = function(t, msg) 
+    return t.info(msg)
+  end
+})
+
 --TODO: Turn this into information for :checkhealth
 --
 --- Notifications about nvim current state
