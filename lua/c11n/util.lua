@@ -11,20 +11,6 @@ function M.has(feature)
   end
 end
 
---- Returns current platform
----@returns "unix"|"windows"|"wsl"|"unknown"
-function M.platform()
-  if M.has("linux") or M.has("unix") then
-    return "unix"
-  elseif M.has("win32") then
-    return "windows"
-  elseif M.has("wsl") then
-    return "wsl"
-  else
-    return "unknown"
-  end
-end
-
 ---Wraps any lua type into a table
 ---@param value any
 ---@param key? string Optional key for value in the table

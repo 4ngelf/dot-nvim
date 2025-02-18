@@ -1,5 +1,5 @@
 --- Some adaptations for windows
-if require("c11n.util").platform() ~= "windows" then
+if require("c11n").OS ~= "windows" then
   return
 end
 
