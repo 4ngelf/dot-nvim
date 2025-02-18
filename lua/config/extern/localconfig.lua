@@ -8,5 +8,7 @@ if vim.uv.fs_stat(local_file) then
   vim.cmd.source(local_file)
 end
 
--- TODO: Include a 'C11n EditLocal' command to edit file
-vim.api.nvim_create_user_command("C11nEditLocal", "edit "..local_file, { desc = "Edit machine local configuration"})
+require("c11n.manage").register_command("edit_local", {
+  callback = "edit "..local_file,
+  desc = "Edit local machine configuration",
+})

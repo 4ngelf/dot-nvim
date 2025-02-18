@@ -4,7 +4,8 @@ local log = require("c11n.util").log
 
 ---@class c11n.CommandDefinition
 ---@field callback string|fun(opts: table)
----@field complete string|string[]|fun(lead: string, args: string[], position: number):string[]
+---@field complete? string|string[]|fun(lead: string, args: string[], position: number):string[]
+---@field desc? string
 
 ---@type table<string, c11n.CommandDefinition>
 local SUBCOMMANDS = {}
@@ -20,9 +21,11 @@ end
 ---@param opts table
 local function main_command(opts)
   if #opts.fargs == 0 then
-    local subcommands = table.concat(vim.tbl_keys(SUBCOMMANDS), ", ")
+    local subcommands = vim.iter(vim.tbl_keys(SUBCOMMANDS))
+    subcommands = subcommands:map(function(cmd) return (" [%s] %s"):format(cmd, SUBCOMMANDS[cmd].desc or "") end)
+    subcommands = subcommands:join("\n")
     if subcommands ~= "" then
-      log("Available commands: "..subcommands)
+      log("Available commands:\n"..subcommands)
     else
       log.error("No commands available")
     end
@@ -33,19 +36,21 @@ local function main_command(opts)
   opts.fargs = vim.list_slice(opts.fargs, 2, #opts.fargs)
 
   local callback = vim.tbl_get(SUBCOMMANDS, name, "callback")
-  if callback then
+  if type(callback) == "function" then
     callback(opts)
+  elseif type(callback) == "string" then
+    vim.cmd(callback)
   else
     log.error("Command "..name.." not found")
   end
 end
 
-local function main_completion(arg_lead, line, position)
-  if line:match("^C11n%s+$") then
+local function main_complete(arg_lead, line, position)
+  if line:match("^C11n%s+"..arg_lead.."$") then
     return vim.tbl_keys(SUBCOMMANDS)
   end
 
-  local name = line:match("%s+(%w*)%s+")
+  local name = line:match("%s+(%w*)%s+") or ""
   local complete = vim.tbl_get(SUBCOMMANDS, name, "complete")
 
   if complete then
@@ -56,7 +61,12 @@ local function main_completion(arg_lead, line, position)
 end
 
 function M.init()
-  vim.api.nvim_create_user_command("C11n", main_command, {nargs = "*", complete = main_completion} )
+  vim.api.nvim_create_user_command("C11n", main_command, {
+    nargs = "*",
+    complete = main_complete,
+    desc = "Management commands for c11n"
+  })
+  require("c11n.manage.commands").register_default_commands()
 end
 
 return M
