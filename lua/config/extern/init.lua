@@ -1,14 +1,15 @@
---- Make adjustements for external programs
-local M = M(...)
+local M = {}
 
 ---@type string[]
 local externals = {
+  "windows",
   "neovide",
+  "localconfig",
 }
 
 function M.init() 
   table.foreach(externals, function(_, external) 
-    M.require(external).init()
+    require("config.extern."..external)
   end)
 end
 

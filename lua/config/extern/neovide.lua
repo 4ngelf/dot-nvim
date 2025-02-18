@@ -1,19 +1,13 @@
---- Neovide settings
-local M = M(...)
-
----Sets a global (g:) variable.
-local g = vim.api.nvim_set_var
-
-function M.init()
-  if not vim.g.neovide then
-    return
-  end
-
-  -- Options
-  -- g("neovide_background_color", "#0f1117dd")
+-- Neovide settings
+if not vim.g.neovide then
+  return
 end
 
-return M
+local g = vim.g
+
+vim.o.guifont = "JetBrainsMono Nerd Font,Cascadia Code,Hack:h13"
+
+-- g.neovide_background_color = "#0f1117dd"
 
 --[[
 List of neovide globals:

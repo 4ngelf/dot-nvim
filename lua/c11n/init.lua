@@ -1,44 +1,27 @@
---- # Base configuration module
----
---- This is the configuration module which makes all the magic work.
---- In code 'configuration' is abbreviated as 'c11n.'
-local M = M(...)
-local U = require("c11n.util")
-local C = require("c11n.const")
+--- Initialization and utilities for configuration (c11n)
+local M = {}
 
-local startup_notifications = {}
+--- Initialize editor configuration
+function M.init() 
+  local Lazy = require("c11n.lazy")
+  local Settings = require("c11n.settings")
+  local Util = require("c11n.util")
 
---- Get information about startup
----@return string[]
-function M.startup_notifications()
-  if #startup_notifications == 0 then
-    if vim.env.NVIM_APPNAME then
-      table.insert(
-        startup_notifications,
-        "Using alternative configuration: " .. vim.env.NVIM_APPNAME)
-    end
-
-    if not C.use_rocks then 
-      table.insert(
-        startup_notifications,
-        "Rocks plugins are currently disabled")
-    end
+  -- Try to setup lazyvim
+  if Lazy.status() == "ok" then
+    Lazy.setup()
+  else
+    require("c11n.fallback").init()
   end
 
-  return startup_notifications
-end
-
-function M.init() 
-  -- TODO: Run local configuration before initialization
-
-  -- Initialization
-  M.require("external").init()
-  M.require("editor").init()
-
+  -- Apply settings
   vim.schedule(function()
-    local notifications = M.startup_notifications()
-    vim.notify(table.concat(notifications, "\n"))
+    Util.load_colorscheme(Settings.colorscheme)
+    vim.cmd.language(Settings.language)
   end)
+
+  -- Load management utilities
+  require('c11n.management').init()
 end
 
 return M
