@@ -5,9 +5,8 @@ end
 
 local g = vim.g
 
-vim.o.guifont = "JetBrainsMono Nerd Font,Cascadia Code,Hack:h13"
-
--- g.neovide_background_color = "#0f1117dd"
+vim.o.guifont = "JetBrainsMono Nerd Font:h12"
+g.neovide_theme = "dark"
 
 --[[
 List of neovide globals:
