@@ -6,7 +6,7 @@ local log = require("c11n.util").log
 ---@field callback string|fun(opts: table)
 ---@field complete string|string[]|fun(lead: string, args: string[], position: number):string[]
 
----@type c11n.CommandDefinition[]
+---@type table<string, c11n.CommandDefinition>
 local SUBCOMMANDS = {}
 
 --- Register a command for :C11n. It replaces old commands if given
