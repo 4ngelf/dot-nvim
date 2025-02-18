@@ -30,7 +30,7 @@ function M.init()
   vim.cmd.language(Settings.language)
 
   -- Load management utilities
-  require('c11n.management').init()
+  require('c11n.manage').init()
 end
 
 return M
