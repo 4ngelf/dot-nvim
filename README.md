@@ -4,27 +4,23 @@
 
 </div>
 
-This is my neovim configuration. The main goal is a configuration that just works in any environment
-that neovim supports while still being easy to modify and manage.
-
+This is my neovim configuration. The main goal I want to achieve is a configuration I can safely take
+anywhere without much overhead while being able to control the level complexity of the editor.
 
 ## Goals
 
 - When plugins, external applications and/or terminal capabilities are missing, neovim tries to
   configurate the bare minimum of mappings, options, etc.
-- Everything works the same in any platform.
-- Administrate configuration and dependencies with [:\{Commands\}][nvim.commands.help]
-- No automatic installation of external programs on initialization.
-- Neovim needs to ask the user before automatic access of resources outside the [standard
-  paths][nvim.standardpaths.help]. Including network access.
-
+- Use [:\{Commands\}][nvim.commands.help] to manage the editor capabilities.
+- No automatic installation or downloads on initialization. Every such action must be explitcly with
+- the use of commands.
 
 ## Install
 
 Clone the repository.
 
 ```sh
-git clone git@github.com:4ngelf/nvim.git "${XDG_CONFIG_HOME}/nvim"
+git clone https://github.com/4ngelf/nvim.git "${XDG_CONFIG_HOME:-$HOME/.config}/nvim"
 ```
 
 See also: [`:help standard-path`][nvim.standardpaths.help]
