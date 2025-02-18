@@ -9,11 +9,11 @@ anywhere without much overhead while being able to control the level complexity 
 
 ## Goals
 
-- When plugins, external applications and/or terminal capabilities are missing, neovim tries to
-  configurate the bare minimum of mappings, options, etc.
-- Use [:\{Commands\}][nvim.commands.help] to manage the editor capabilities.
-- No automatic installation or downloads on initialization. Every such action must be explitcly with
-- the use of commands.
+- When plugins, external applications and/or terminal capabilities are missing, neovim fallbacks to
+  just setting some mappings, options, autocmds, etc.
+- No automatic installation or downloads on initialization. All such routines must have been triggered
+  by the use of some [`:Command`][nvim.commands.help]
+- Use [`:Commands`][nvim.commands.help] to manage the editor capabilities.
 
 ## Install
 
