@@ -4,9 +4,10 @@ if require("c11n.util").platform() ~= "windows" then
 end
 
 local uv_spawn = vim.uv.spawn
+
 -- HACK: uv.spawn() now can find and execute batch scripts by name.
---       ie: luarocks.bat
--- TODO: find a better solution
+--       ie: 'luarocks' could invoke 'luarocks.bat'
+-- TODO: figure out a solution that only requires a single invocation to uv.spawn
 vim.uv.spawn = function(path, options, on_exit)
   local exts = { "", ".bat", ".cmd" }
   local h, pid, err
