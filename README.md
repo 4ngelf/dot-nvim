@@ -9,11 +9,9 @@ anywhere without much overhead while being able to control the level complexity 
 
 ## Goals
 
-- When plugins, external applications and/or terminal capabilities are missing, neovim fallbacks to
-  just setting some mappings, options, autocmds, etc.
-- No automatic installation or downloads on initialization. All such routines must have been triggered
-  by the use of some [`:Command`][nvim.commands.help]
-- Use [`:Commands`][nvim.commands.help] to manage the editor capabilities.
+- **Lightweight**: Just a subset of all plugins are available at first. The rest of can be installed anytime.
+- **Adaptable**: Extra tweaks are made on special environments like on Windows, GUI apps, remote, etc.
+- **Batteries**: Define options, mappings, autocmds and custom user commands to manage all.
 
 ## Install
 
@@ -26,5 +24,4 @@ git clone https://github.com/4ngelf/nvim.git "${XDG_CONFIG_HOME:-$HOME/.config}/
 See also: [`:help standard-path`][nvim.standardpaths.help]
 
 <!-- Links -->
-[nvim.commands.help]: https://neovim.io/doc/user/cmdline.html#cmdline
 [nvim.standardpaths.help]: https://neovim.io/doc/user/starting.html#_standard-paths
