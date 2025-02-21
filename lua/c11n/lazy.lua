@@ -50,7 +50,7 @@ function M.status()
   elseif not vim.uv.fs_stat(LAZY_PATH) then
     return "uninstalled"
   elseif not pcall(require, "lazy") then
-    return "nolibrary"
+    return "corrupted"
   else
     return "ok"
   end
@@ -61,10 +61,15 @@ function M.setup()
   local status = M.status()
 
   if status == "disabled" then
-    error("Lazy explicitly disabled")
+    error("lazy.nvim explicitly disabled by setting $NO_LAZY environment variable")
   end
 
-  if status == "uninstalled" or status == "nolibrary" then
+  if status == "corrupted" then
+    todo("Erase lazy to try to install again")
+  end
+
+  if status == "uninstalled" then
+    -- TODO: Make this part async
     local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", LAZY_REPO, LAZY_PATH })
     if vim.v.shell_error ~= 0 then
       vim.api.nvim_echo({
