@@ -9,6 +9,8 @@ local DEFAULT_SETTINGS = {
   },
   ---@type string
   language = "en_US",
+  ---@type number
+  highlight_on_yank_timeout = 1000,
   ---@type string[]
   disabled_plugins = {
     "gzip",
