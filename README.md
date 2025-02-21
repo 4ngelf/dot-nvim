@@ -11,7 +11,7 @@ anywhere without much overhead while being able to control the level complexity 
 
 - **Lightweight**: Just a subset of all plugins are available at first. The rest of can be installed anytime.
 - **Adaptable**: Extra tweaks are made on special environments like on Windows, GUI apps, remote, etc.
-- **Batteries**: Define options, mappings, autocmds and custom user commands to manage all.
+- **Batteries**: Define utilities and use popular luarocks libraries to enhance the code.
 
 ## Install
 
