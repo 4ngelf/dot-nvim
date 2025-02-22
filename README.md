@@ -10,7 +10,7 @@ This is my neovim configuration files. Everything is geared towards modularity, 
 - **Lightweight**: Just a subset of all plugins are available at first.
 - **Batteries**: Define utilities and use popular libraries to enhance the code.
 - **Management**: Define user commands to manage the editor complexity.
-- **Adaptable**: Apply extra tweaks as needed on special environments like on Windows, GUI apps, remote, etc.
+- **Adaptable**: Apply extra tweaks as needed on special environments like on Windows, terminal/GUI apps, remote, etc.
 
 ## Dependencies
 
