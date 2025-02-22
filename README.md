@@ -14,10 +14,18 @@ This is my neovim configuration files. Everything is geared towards modularity, 
 
 ## Dependencies
 
-- neovim >= `0.10` (luajit)
-- git
+This is a list of dependencies which can't be automatically installed: 
+
+- [neovim](https://neovim.io/) >= `0.10` (luajit)
+- [git](https://git-scm.com/)
 - [lazy.nvim](https://lazy.folke.io/)
 - [luarocks](https://luarocks.org/)
+
+### Extra dependencies for lazyvim
+
+- C compiler <sub>_suggestions_: gnu's `gcc`, llvm's `clang`, MSVC's `cl.exe`, `zig`</sub>
+- curl
+- [fzf](https://github.com/junegunn/fzf), [ripgrep](https://github.com/BurntSushi/ripgrep) and [fd](https://github.com/sharkdp/fd)
 
 ## Install
 
