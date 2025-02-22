@@ -7,9 +7,10 @@ This is my neovim configuration files. Everything is geared towards modularity, 
 
 ### Goals
 
-- **Lightweight**: Just a subset of all plugins are available at first. The rest of can be installed anytime.
-- **Adaptable**: Extra tweaks are made on special environments like on Windows, GUI apps, remote, etc.
-- **Batteries**: Define utilities and use popular luarocks libraries to enhance the code.
+- **Lightweight**: Just a subset of all plugins are available at first.
+- **Batteries**: Define utilities and use popular libraries to enhance the code.
+- **Management**: Define user commands to manage the editor complexity.
+- **Adaptable**: Apply extra tweaks as needed on special environments like on Windows, GUI apps, remote, etc.
 
 ## Dependencies
 
