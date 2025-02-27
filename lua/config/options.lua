@@ -10,7 +10,7 @@ local o = vim.opt
 -- Scrolling
 o.number = true
 o.relativenumber = true
-o.scrolloff = 8
+o.scrolloff = math.floor(vim.go.columns * .35)
 
 -- Tabs
 o.expandtab = true
