@@ -18,7 +18,7 @@ anywhere without much overhead while being able to control the level complexity 
 Clone the repository.
 
 ```sh
-git clone https://github.com/4ngelf/nvim.git "${XDG_CONFIG_HOME:-$HOME/.config}/nvim"
+git clone https://github.com/4ngelf/dot-nvim.git "${XDG_CONFIG_HOME:-$HOME/.config}/nvim"
 ```
 
 See also: [`:help standard-path`][nvim.standardpaths.help]
