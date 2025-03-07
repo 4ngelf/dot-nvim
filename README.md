@@ -1,6 +1,6 @@
 # Neovim Configuration
 
-<img height="128" align="left" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/neovim/neovim-original.svg">
+<img height="100" align="left" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/neovim/neovim-original.svg">
 
 ### Installation
 
