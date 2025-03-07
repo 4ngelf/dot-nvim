@@ -4,8 +4,6 @@
 
 ### Installation
 
-Clone the repository.
-
 ```sh
 git clone https://github.com/4ngelf/dot-nvim.git "${XDG_CONFIG_HOME:-$HOME/.config}/nvim"
 ```
