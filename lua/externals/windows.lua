@@ -3,8 +3,8 @@ if require("c11n").OS ~= "windows" then
   return
 end
 
--- HACK: On windows, uv.spawn only tries `.COM` and `.EXE` extensions. We will try other extensions
--- if those are not found. `on_exit` is only called when the spawned process exits.
+-- HACK: On windows, uv.spawn only tries `.COM` and `.EXE` extensions. So, we will retry with other
+-- extensions if those are not found. `on_exit` is only called when a running spawned process exits.
 -- see: https://github.com/libuv/libuv/blob/4681d5d5705be932f82e1e79eff72f17b5bf82e2/src/win/process.c#L332
 do
   local uv_spawn = vim.uv.spawn
