@@ -37,7 +37,6 @@ o.splitright = true
 o.termguicolors = true
 o.spelllang = { "en" }
 o.clipboard = ""
-
 --  NOT LAZY.NVIM
 if not require("c11n.util").has("lazy") then
   -- Folding
@@ -47,6 +46,3 @@ if not require("c11n.util").has("lazy") then
   o.foldlevelstart = 99
 
 end
-
--- Settings for external tools
-require("externals").init()

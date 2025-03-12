@@ -29,6 +29,9 @@ function M.init()
   Util.load_colorscheme(Settings.colorscheme)
   vim.cmd.language(Settings.language)
 
+  -- Load configuration for external tools
+  require("externals").init()
+
   -- Load management utilities
   require('c11n.manage').init()
 end
