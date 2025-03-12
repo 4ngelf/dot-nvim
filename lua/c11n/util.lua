@@ -11,18 +11,6 @@ function M.has(feature)
   end
 end
 
----Wraps any lua type into a table
----@param value any
----@param key? string Optional key for value in the table
----@return table wrapped Wrapped value
-function M.tbl_wrap(value, key)
-  if type(value) == "table" then
-    return value
-  elseif key ~= nil then
-    return { [key] = value }
-  else
-    return { value }
-  end
 end
 
 local function _make_logger(level, msg_prefix)
@@ -44,8 +32,8 @@ local _log = {
 }
 
 M.log = setmetatable(_log, {
-  __call = function(t, msg) 
-    return t.info(msg)
+  __call = function(log, msg)
+    return log.info(msg)
   end
 })
 
@@ -76,12 +64,12 @@ function M.load_colorscheme(colors)
     return
   end
 
-  colors = M.tbl_wrap(colors)
+  colors = type(colors) == "table" and colors or { colors }
 
   for _, color in ipairs(colors) do
     local ok, _ = pcall(vim.cmd.colorscheme, color)
     if ok then
-      return 
+      return
     end
   end
 end
