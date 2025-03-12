@@ -15,9 +15,9 @@ vim.uv = vim.uv or vim.loop
 --- Will raise an error to indicate unfinished code.
 ---@param msg? string Optional message to indicate context
 ---@return any
-function todo(msg) 
-  msg = msg and ": "..msg or ""
-  error("Not yet implemented"..msg, 0)
+function todo(msg)
+  msg = msg and ": " .. msg or ""
+  error("Not yet implemented" .. msg, 0)
 end
 
 -- Initialize configuration (c11n)
