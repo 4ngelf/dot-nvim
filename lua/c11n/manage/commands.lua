@@ -1,21 +1,15 @@
 local M = {}
-local Lazy = require("c11n.lazy")
 
-local MAP = {}
+M.default_commands = {}
 
-if Lazy.status ~= "ok" then
-  MAP.install_lazy = {
-    callback = function(opts)
-      -- TODO: use vim.ui.input to confirm
-      Lazy.setup()
-    end,
-    desc = "Install lazynvim right now"
-  }
-end
+M.default_commands["install_local"] = {
+  callback = "edit "..require("c11n").local_config_path,
+  desc = "Edit local machine configuration",
+}
 
---- Registers some standard commands
+--- Register the default commands
 function M.register_default_commands()
-  for cmd, definition in pairs(MAP) do
+  for cmd, definition in pairs(M.default_commands) do
     require("c11n.manage").register_command(cmd, definition)
   end
 end
