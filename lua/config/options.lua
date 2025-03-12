@@ -49,4 +49,4 @@ if not require("c11n.util").has("lazy") then
 end
 
 -- Settings for external tools
-require("config.extern").init()
+require("externals").init()

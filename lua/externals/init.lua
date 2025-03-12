@@ -7,9 +7,9 @@ local externals = {
   "localconfig",
 }
 
-function M.init() 
-  table.foreach(externals, function(_, external) 
-    require("config.extern."..external)
+function M.init()
+  table.foreach(externals, function(_, external)
+    require("externals."..external)
   end)
 end
 
