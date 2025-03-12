@@ -20,7 +20,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   group = augroup("highlight_yank"),
   callback = function()
     (vim.hl or vim.highlight).on_yank({
-      timeout = require("c11n.settings").highlight_on_yank_timeout
+      timeout = require("c11n.settings").highlight_on_yank_timeout,
     })
   end,
 })
@@ -127,4 +127,3 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
     vim.fn.mkdir(vim.fn.fnamemodify(file, ":p:h"), "p")
   end,
 })
-

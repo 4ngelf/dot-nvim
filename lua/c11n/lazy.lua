@@ -1,4 +1,4 @@
---- lazy.nvim package manager initialization routines
+--- lazy.nvim package manager setup
 local M = {}
 
 ---@type string
@@ -16,7 +16,7 @@ local LAZY_CONFIG = {
       import = "lazyvim.plugins",
       opts = {
         defaults = {
-          autocmds = false
+          autocmds = false,
         },
       },
     },
@@ -27,11 +27,13 @@ local LAZY_CONFIG = {
     lazy = false,
     version = false, -- always use the latest git commit
   },
-  install = { colorscheme = require("c11n.settings").colorscheme },
+  install = {
+    colorscheme = require("c11n.settings").colorscheme,
+  },
   checker = {
     enabled = true, -- check for plugin updates periodically
     notify = true, -- notify on update
-  }, 
+  },
   performance = {
     rtp = {
       -- disable some rtp plugins
@@ -40,52 +42,21 @@ local LAZY_CONFIG = {
   },
 }
 
----@alias LazyStatus "ok" | "disabled" | "uninstalled" | "nolibrary"
-
---- Lazy.nvim installation and usage status
----@return LazyStatus
-function M.status()
-  if (vim.env.NO_LAZY ~= nil) then
-    return "disabled"
-  elseif not vim.uv.fs_stat(LAZY_PATH) then
-    return "uninstalled"
-  elseif not pcall(require, "lazy") then
-    return "corrupted"
-  else
-    return "ok"
+local did_init = false
+--- Tries to initialize and setup lazy.nvim
+function M.init()
+  if did_init then
+    return
   end
-end
+  did_init = true
 
---- Tries to setups and starts lazy.
-function M.setup()
-  local status = M.status()
-
-  if status == "disabled" then
-    error("lazy.nvim explicitly disabled by setting $NO_LAZY environment variable")
+  local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", LAZY_REPO, LAZY_PATH })
+  if vim.v.shell_error ~= 0 then
+    require("c11n.util").log.error("Failed to clone lazy.nvim")
+    return
   end
+  vim.opt.runtimepath:prepend(LAZY_PATH)
 
-  if status == "corrupted" then
-    todo("Erase lazy to try to install again")
-  end
-
-  if status == "uninstalled" then
-    -- TODO: Make this part async
-    local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", LAZY_REPO, LAZY_PATH })
-    if vim.v.shell_error ~= 0 then
-      vim.api.nvim_echo({
-        { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
-        { out, "WarningMsg" },
-        { "\nPress any key to exit..." },
-      }, true, {})
-      
-      return
-    end
-  end
-
-  if not vim.tbl_contains(vim.opt.rtp:get(), LAZY_PATH) then
-    vim.opt.runtimepath:prepend(LAZY_PATH)
-  end
-  
   require("lazy").setup(LAZY_CONFIG)
 end
 

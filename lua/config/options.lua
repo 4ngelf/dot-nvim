@@ -1,5 +1,5 @@
 -- Globals
-vim.g.mapleader = vim.keycode "<Space>"
+vim.g.mapleader = vim.keycode("<Space>")
 vim.g.maplocalleader = "\\"
 
 vim.g.lazyvim_cmp = "blink.cmp"
@@ -37,12 +37,3 @@ o.splitright = true
 o.termguicolors = true
 o.spelllang = { "en" }
 o.clipboard = ""
---  NOT LAZY.NVIM
-if not require("c11n.util").has("lazy") then
-  -- Folding
-  o.foldmethod = "marker"
-  o.foldenable = true
-  o.foldnestmax = 3
-  o.foldlevelstart = 99
-
-end

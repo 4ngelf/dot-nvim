@@ -13,7 +13,7 @@ do
   vim.uv.spawn = function(path, options, on_exit)
     local h, pid, err
     for _, ext in ipairs(exts) do
-      h, pid, err = uv_spawn(path..ext, options, on_exit)
+      h, pid, err = uv_spawn(path .. ext, options, on_exit)
       if h or err ~= "ENOENT" then
         break
       end

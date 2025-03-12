@@ -22,10 +22,12 @@ end
 local function main_command(opts)
   if #opts.fargs == 0 then
     local subcommands = vim.iter(vim.tbl_keys(SUBCOMMANDS))
-    subcommands = subcommands:map(function(cmd) return (" [%s] %s"):format(cmd, SUBCOMMANDS[cmd].desc or "") end)
+    subcommands = subcommands:map(function(cmd)
+      return (" [%s] %s"):format(cmd, SUBCOMMANDS[cmd].desc or "")
+    end)
     subcommands = subcommands:join("\n")
     if subcommands ~= "" then
-      log("Available commands:\n"..subcommands)
+      log("Available commands:\n" .. subcommands)
     else
       log.error("No commands available")
     end
@@ -41,12 +43,12 @@ local function main_command(opts)
   elseif type(callback) == "string" then
     vim.cmd(callback)
   else
-    log.error("Command "..name.." not found")
+    log.error("Command " .. name .. " not found")
   end
 end
 
 local function main_complete(arg_lead, line, position)
-  if line:match("^C11n%s+"..arg_lead.."$") then
+  if line:match("^C11n%s+" .. arg_lead .. "$") then
     return vim.tbl_keys(SUBCOMMANDS)
   end
 
@@ -64,7 +66,7 @@ function M.init()
   vim.api.nvim_create_user_command("C11n", main_command, {
     nargs = "*",
     complete = main_complete,
-    desc = "Management commands for c11n"
+    desc = "Management commands for c11n",
   })
   require("c11n.manage.commands").register_default_commands()
 end

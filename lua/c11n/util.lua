@@ -3,14 +3,8 @@ local M = {}
 
 --- Checks feature availability. Fallbacks to vim.fn.has()
 ---@return bool
-function M.has(feature) 
-  if feature == "lazy" then
-    return require("c11n.lazy").status() == "ok"
-  else
-    return vim.fn.has(feature) == 1
-  end
-end
-
+function M.has(feature)
+  return vim.fn.has(feature) == 1
 end
 
 local function _make_logger(level, msg_prefix)
@@ -18,7 +12,7 @@ local function _make_logger(level, msg_prefix)
     if pcall(require, "lazy") then
       vim.notify(msg, level)
     else
-      vim.api.nvim_echo({ msg_prefix, {" "}, { msg } }, true, {})
+      vim.api.nvim_echo({ msg_prefix, { " " }, { msg } }, true, {})
     end
   end
 end
@@ -26,15 +20,15 @@ end
 local _log = {
   debug = _make_logger(vim.log.levels.DEBUG, { " DEBUG ", "Visual" }),
   error = _make_logger(vim.log.levels.ERROR, { " ERROR ", "ErrorMsg" }),
-  info  = _make_logger(vim.log.levels.INFO, { " INFO ", "Visual" }),
+  info = _make_logger(vim.log.levels.INFO, { " INFO ", "Visual" }),
   trace = _make_logger(vim.log.levels.TRACE, { " TRACE ", "Normal" }),
-  warn  = _make_logger(vim.log.levels.WARN, { " WARN ", "WarningMsg" }),
+  warn = _make_logger(vim.log.levels.WARN, { " WARN ", "WarningMsg" }),
 }
 
 M.log = setmetatable(_log, {
   __call = function(log, msg)
     return log.info(msg)
-  end
+  end,
 })
 
 --TODO: Turn this into information for :checkhealth

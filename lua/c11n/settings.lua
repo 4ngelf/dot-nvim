@@ -5,7 +5,7 @@ local DEFAULT_SETTINGS = {
   colorscheme = {
     "catppuccin",
     "habamax",
-    "default"
+    "default",
   },
 
   ---@type string

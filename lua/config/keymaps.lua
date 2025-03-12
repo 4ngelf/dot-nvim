@@ -11,7 +11,7 @@ local keymap = setmetatable({}, {
   __tostring = function(_)
     return "vim.keymap.set"
   end,
-  __index = function(_, mode) 
+  __index = function(_, mode)
     mode = vim.split(mode, "")
     return function(lhs, rhs, desc_or_opts)
       if type(desc_or_opts) == "string" then
