@@ -4,7 +4,7 @@ local function disable(plugin_name)
 end
 
 return {
-  disable("bufferline"),
-  disable("mason"),
-  disable("mason-lspconfig"),
+  disable("bufferline.nvim"),
+  disable("mason.nvim"),
+  disable("mason-lspconfig.nvim "),
 }
