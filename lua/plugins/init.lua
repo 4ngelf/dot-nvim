@@ -1,3 +1,4 @@
 --- Specs and overrides for lazy.nvim plugins.
----
---- lazyvim plugins: http://www.lazyvim.org/plugins
+return {
+
+}

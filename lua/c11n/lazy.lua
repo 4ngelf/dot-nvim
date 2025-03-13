@@ -5,7 +5,7 @@ local M = {}
 local LAZY_REPO = "https://github.com/folke/lazy.nvim.git"
 
 ---@type string
-local LAZY_PATH = vim.fs.joinpath(vim.fn.stdpath("data"), "lazy", "lazy.nvim")
+local LAZY_PATH = vim.fs.joinpath(vim.fn.stdpath("data") --[[@as string]], "lazy", "lazy.nvim")
 
 ---@type LazyConfig
 local LAZY_CONFIG = {

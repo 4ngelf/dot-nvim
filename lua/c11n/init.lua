@@ -4,7 +4,7 @@ local M = {}
 local util = require("c11n.util")
 
 ---@type string
-M.local_config_path = vim.fs.joinpath(vim.fn.stdpath("data"), "neovim.local.lua")
+M.local_config_path = vim.fs.joinpath(vim.fn.stdpath("data") --[[@as string]], "neovim.local.lua")
 
 ---@alias OS
 ---| "unknown"
@@ -31,8 +31,8 @@ end
 function M.init()
   --- Load local machine configuration
   --- TIP: see lazy.events to execute code in different stages of the configuration
-  if vim.uv.fs_stat(local_config_path) then
-    vim.cmd.source(local_config_path)
+  if vim.uv.fs_stat(M.local_config_path) then
+    vim.cmd.source(M.local_config_path)
   end
 
   -- Apply settings
