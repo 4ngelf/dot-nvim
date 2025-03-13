@@ -15,6 +15,7 @@ local LAZY_CONFIG = {
       "LazyVim/LazyVim",
       import = "lazyvim.plugins",
       opts = {
+        colorscheme = require("c11n.settings").colorscheme,
         defaults = {
           autocmds = false,
         },
@@ -28,7 +29,7 @@ local LAZY_CONFIG = {
     version = false, -- always use the latest git commit
   },
   install = {
-    colorscheme = require("c11n.settings").colorscheme,
+    colorscheme = { require("c11n.settings").colorscheme, "habamax" },
   },
   checker = {
     enabled = true, -- check for plugin updates periodically

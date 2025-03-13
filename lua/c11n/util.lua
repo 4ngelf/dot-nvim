@@ -52,20 +52,20 @@ M.log = setmetatable(_log, {
 
 --- Load first available colorscheme
 ---@param colors string|string[]|function
-function M.load_colorscheme(colors)
-  if type(colors) == "function" then
-    colors()
-    return
-  end
-
-  colors = type(colors) == "table" and colors or { colors }
-
-  for _, color in ipairs(colors) do
-    local ok, _ = pcall(vim.cmd.colorscheme, color)
-    if ok then
-      return
-    end
-  end
-end
+-- function M.load_colorscheme(colors)
+--   if type(colors) == "function" then
+--     colors()
+--     return
+--   end
+--
+--   colors = type(colors) == "table" and colors or { colors }
+--
+--   for _, color in ipairs(colors) do
+--     local ok, _ = pcall(vim.cmd.colorscheme, color)
+--     if ok then
+--       return
+--     end
+--   end
+-- end
 
 return M

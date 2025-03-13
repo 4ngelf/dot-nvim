@@ -37,7 +37,6 @@ function M.init()
 
   -- Apply settings
   local settings = require("c11n.settings")
-  util.load_colorscheme(settings.colorscheme)
   vim.cmd.language(settings.language)
 
   -- Load all the plugins

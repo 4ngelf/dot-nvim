@@ -1,12 +1,8 @@
 ---@class c11n.Settings
 local DEFAULT_SETTINGS = {
-  --- Preferred colorscheme. Priority from left to right.
-  ---@type string[]|function
-  colorscheme = {
-    "catppuccin",
-    "habamax",
-    "default",
-  },
+  --- Preferred colorscheme
+  ---@type string
+  colorscheme = "catppuccin-macchiato",
 
   ---@type string
   language = "en_US",
@@ -25,23 +21,12 @@ local DEFAULT_SETTINGS = {
     -- "tutor",
     "zipPlugin",
   },
-
-  ---@alias Provider
-  ---| "python"
-  ---| "node"
-  ---| "ruby"
-  ---| "perl"
-  ---| "clipboard"
-
-  ---@type Provider[]
-  install_providers = {},
 }
 
 ---@class c11n.UserSettings
 ---@field colorscheme? string[]|function
 ---@field language? string
 ---@field disabled_plugins? string[]
----@field install_providers? Provider[]
 
 ---@type c11n.UserSettings
 vim.g.c11n_settings = type(vim.g.c11n_settings) == "table" and vim.g.c11n_settings or {}
