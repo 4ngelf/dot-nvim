@@ -25,9 +25,10 @@ local function main_command(opts)
     subcommands = subcommands:map(function(cmd)
       return (" [%s] %s"):format(cmd, SUBCOMMANDS[cmd].desc or "")
     end)
-    subcommands = subcommands:join("\n")
-    if subcommands ~= "" then
-      log("Available commands:\n" .. subcommands)
+
+    local result = subcommands:join("\n")
+    if result ~= "" then
+      log("Available commands:\n" .. result)
     else
       log.error("No commands available")
     end
@@ -62,7 +63,7 @@ local function main_complete(arg_lead, line, position)
   return {}
 end
 
-function M.init()
+local function _setup()
   vim.api.nvim_create_user_command("C11n", main_command, {
     nargs = "*",
     complete = main_complete,
@@ -70,5 +71,7 @@ function M.init()
   })
   require("c11n.manage.commands").register_default_commands()
 end
+
+M.setup = vim.schedule_wrap(_setup)
 
 return M

@@ -39,14 +39,14 @@ function M.init()
   local settings = require("c11n.settings")
   vim.cmd.language(settings.language)
 
-  -- Load all the plugins
-  require("c11n.lazy").init()
-
   -- Load configuration for external tools
   require("externals").init()
 
   -- Load management utilities
-  require("c11n.manage").init()
+  require("c11n.manage").setup()
+
+  -- delegate to lazy.nvim
+  require("c11n.lazy").setup()
 end
 
 return M
