@@ -4,6 +4,8 @@ vim.g.maplocalleader = "\\"
 
 vim.g.lazyvim_cmp = "blink.cmp"
 
+LazyVim.terminal.setup("pwsh")
+
 -- Options
 local o = vim.opt
 
