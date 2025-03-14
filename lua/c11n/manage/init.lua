@@ -63,7 +63,7 @@ local function main_complete(arg_lead, line, position)
   return {}
 end
 
-local function _setup()
+function M.setup()
   vim.api.nvim_create_user_command("C11n", main_command, {
     nargs = "*",
     complete = main_complete,
@@ -71,7 +71,5 @@ local function _setup()
   })
   require("c11n.manage.commands").register_default_commands()
 end
-
-M.setup = vim.schedule_wrap(_setup)
 
 return M

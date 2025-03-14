@@ -45,7 +45,12 @@ function M.init()
   end)
 
   -- Load management utilities
-  require("c11n.manage").setup()
+  vim.api.nvim_create_autocmd("User", {
+    pattern = "VeryLazy",
+    callback = function(_)
+      require("c11n.manage").setup()
+    end,
+  })
 
   -- delegate to lazy.nvim
   require("c11n.lazy").setup()
