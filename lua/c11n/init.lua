@@ -31,8 +31,9 @@ end
 function M.init()
   --- Load local machine configuration
   --- TIP: see lazy.events to execute code in different stages of the configuration
-  if vim.uv.fs_stat(M.local_config_path) then
-    vim.cmd.source(M.local_config_path)
+  local load_local = loadfile(M.local_config_path)
+  if load_local then
+    load_local()
   end
 
   -- Apply settings
