@@ -5,6 +5,6 @@ end
 
 return {
   disable("bufferline.nvim"),
-  disable("mason.nvim"),
-  disable("mason-lspconfig.nvim "),
+  -- disable("mason.nvim"),
+  -- disable("mason-lspconfig.nvim "),
 }
