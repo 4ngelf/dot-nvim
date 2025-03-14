@@ -33,15 +33,6 @@ end
 if vim.uv.fs_stat(LAZY_PATH) then
   initialize()
 else
-  ---@param completed vim.SystemCompleted
-  local function on_exit(completed)
-    if completed.code == 0 then
-      initialize()
-    else
-      abort("couldn't clone lazy.nvim")
-    end
-  end
-
   local notify = vim.schedule_wrap(vim.notify)
 
   ---@param err? string
@@ -65,5 +56,11 @@ else
     text = true,
     stdout = on_output,
     stderr = on_output,
-  }, on_exit)
+  }, function(out)
+    if out.code == 0 then
+      initialize()
+    else
+      abort("couldn't clone lazy.nvim")
+    end
+  end)
 end
