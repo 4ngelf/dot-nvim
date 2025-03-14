@@ -6,26 +6,7 @@ local util = require("c11n.util")
 ---@type string
 M.local_config_path = vim.fs.joinpath(vim.fn.stdpath("data") --[[@as string]], "neovim.local.lua")
 
----@alias OS
----| "unknown"
----| "unix"
----| "termux"
----| "windows"
----| "wsl"
-
---- Current operating system
----@type OS
-M.OS = "unknown"
-if util.has("linux") or util.has("unix") then
-  M.OS = "unix"
-  if vim.uv.fs_stat("/data/data/com.termux/files") then
-    M.OS = "termux"
-  end
-elseif util.has("win32") then
-  M.OS = "windows"
-elseif util.has("wsl") then
-  M.OS = "wsl"
-end
+M.has = util.has
 
 --- Initialize editor configuration
 function M.init()

@@ -1,10 +1,29 @@
 --- Utilities
 local M = {}
 
---- Checks feature availability. Fallbacks to vim.fn.has()
+---@alias c11n.Feature
+---| "windows"
+---| "termux"
+---| "neovide"
+---| "lazy"
+---| any
+
+--- Checks feature availability. Extends vim.fn.has()
+---@param feature c11n.Feature
 ---@return bool
 function M.has(feature)
-  return vim.fn.has(feature) == 1
+  local has = vim.fn.has
+  if feature == "windows" then
+    return has("win32") == 1 or has("win64") == 1
+  elseif feature == "termux" then
+    return vim.uv.fs_stat("/data/data/com.termux/files") ~= nil
+  elseif feature == "neovide" then
+    return vim.g.neovide ~= nil
+  elseif feature == "lazy" then
+    return package.loaded["lazy"] ~= nil
+  else
+    return has(feature) == 1
+  end
 end
 
 local function _make_logger(level, msg_prefix)
