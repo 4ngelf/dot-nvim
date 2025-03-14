@@ -33,16 +33,6 @@ end
 if vim.uv.fs_stat(LAZY_PATH) then
   initialize()
 else
-  local notify = vim.schedule_wrap(vim.notify)
-
-  ---@param err? string
-  ---@param data? string
-  local function on_output(err, data)
-    if data then
-      notify(data, vim.log.levels.INFO)
-    end
-  end
-
   vim.system({
     "git",
     "clone",
@@ -52,8 +42,8 @@ else
     LAZY_PATH,
   }, {
     text = true,
-    stdout = on_output,
-    stderr = on_output,
+    stdout = false,
+    stderr = false,
   }, function(out)
     if out.code == 0 then
       vim.schedule(initialize)
