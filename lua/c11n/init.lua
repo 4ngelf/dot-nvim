@@ -40,7 +40,9 @@ function M.init()
   vim.cmd.language(settings.language)
 
   -- Load configuration for external tools
-  require("externals").init()
+  require("lazy.core.util").lsmod("c11n.externals", function(modname, _)
+    require(modname)
+  end)
 
   -- Load management utilities
   require("c11n.manage").setup()
