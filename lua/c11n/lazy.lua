@@ -1,11 +1,16 @@
 --- lazy.nvim package manager setup
 local M = {}
 
----@type LazyVimConfig
+---@type LazyVimOptions
+---@diagnostic disable-next-line: missing-fields
 local LAZYVIM_CONFIG = {
   colorscheme = require("c11n.settings").colorscheme,
   defaults = {
     autocmds = false,
+  },
+  news = {
+    lazyvim = true,
+    neovim = true,
   },
 }
 
