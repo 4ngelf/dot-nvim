@@ -40,8 +40,6 @@ else
   local function on_output(err, data)
     if data then
       notify(data, vim.log.levels.INFO)
-    else
-      notify(err, vim.log.levels.ERROR)
     end
   end
 
@@ -58,7 +56,7 @@ else
     stderr = on_output,
   }, function(out)
     if out.code == 0 then
-      initialize()
+      vim.schedule(initialize)
     else
       abort("couldn't clone lazy.nvim")
     end
