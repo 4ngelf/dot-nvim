@@ -2,7 +2,7 @@ local M = {}
 
 M.default_commands = {}
 
-M.default_commands["install_local"] = {
+M.default_commands["edit_local"] = {
   callback = "edit " .. require("c11n").local_config_path,
   desc = "Edit local machine configuration",
 }
