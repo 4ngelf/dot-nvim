@@ -5,6 +5,9 @@ end
 
 local g = vim.g
 
+-- Snacks animations are slower with Neovide. Neovide is already animated anyways...
+g.snacks_animate = false
+
 vim.o.guifont = "JetBrainsMono Nerd Font:h12"
 g.neovide_theme = "dark"
 
