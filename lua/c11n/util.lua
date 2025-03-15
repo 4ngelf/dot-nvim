@@ -10,7 +10,7 @@ local M = {}
 
 --- Checks feature availability. Extends vim.fn.has()
 ---@param feature c11n.Feature
----@return bool
+---@return boolean
 function M.has(feature)
   local has = vim.fn.has
   if feature == "windows" then

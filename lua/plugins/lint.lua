@@ -7,7 +7,7 @@ return {
     "neovim/nvim-lspconfig",
     opts = {
       servers = {
-        vale_ls = {
+        ["vale_ls"] = {
           filetypes = { "text", "plaintex", "typst", "gitcommit", "markdown" },
         },
       },

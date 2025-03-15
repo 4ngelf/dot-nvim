@@ -26,6 +26,7 @@ local function prepare()
 end
 
 --- Initialize editor with fallback configuration
+--- It just applies some things from c11n.settings and loads the config.basic.* modules
 function M.fallback()
   if did_init then
     return
