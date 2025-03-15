@@ -1,27 +1,6 @@
 --- Keymaps
 
---- vim.keymap.set wrapper
---- if the third argument is a string, it is the description
---- Example:
----   keymap.n(...) -- set normal
----   keymap.nv(...) -- set normal and visual
----   keymap.tci(...) -- set terminal, command and insert
----   keymap.nicvxsotl(...) -- Set in all modes
-local keymap = setmetatable({}, {
-  __tostring = function(_)
-    return "vim.keymap.set"
-  end,
-  __index = function(_, mode)
-    mode = vim.split(mode, "")
-    return function(lhs, rhs, desc_or_opts)
-      if type(desc_or_opts) == "string" then
-        desc_or_opts = { desc = desc_or_opts }
-      end
-
-      vim.keymap.set(mode, lhs, rhs, desc_or_opts)
-    end
-  end,
-})
+local keymap = require("c11n.util").keymap
 
 -- Scrolling
 keymap.n("<C-d>", "<C-d>zz", "Scroll down and center cursor")

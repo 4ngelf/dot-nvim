@@ -50,6 +50,34 @@ M.log = setmetatable(_log, {
   end,
 })
 
+--- vim.keymap.set wrapper
+--- the third argument can be just a string to put the description
+--- Example:
+---   keymap.n(...) -- set normal
+---   keymap.nv(...) -- set normal and visual
+---   keymap.tci(...) -- set terminal, command and insert
+---   keymap.nicvxsotl(...) -- Set in all modes
+M.keymap = setmetatable({}, {
+  __tostring = function(_)
+    return "vim.keymap.set"
+  end,
+  __index = function(_, mode)
+    mode = vim.split(mode, "")
+
+    -- ---@type fun(lhs: string, rhs:string|fun(), desc_or_opts: vim.keymap.set.Opts | string)
+    ---@param lhs string
+    ---@param rhs string | fun()
+    ---@param desc_or_opts string | vim.keymap.set.Opts
+    return function(lhs, rhs, desc_or_opts)
+      if type(desc_or_opts) == "string" then
+        desc_or_opts = { desc = desc_or_opts }
+      end
+
+      vim.keymap.set(mode, lhs, rhs, desc_or_opts)
+    end
+  end,
+})
+
 --TODO: Turn this into information for :checkhealth
 --
 --- Notifications about nvim current state
@@ -68,23 +96,5 @@ M.log = setmetatable(_log, {
 --
 --   vim.api.nvim_echo(messages, true, {})
 -- end)
-
---- Load first available colorscheme
----@param colors string|string[]|function
--- function M.load_colorscheme(colors)
---   if type(colors) == "function" then
---     colors()
---     return
---   end
---
---   colors = type(colors) == "table" and colors or { colors }
---
---   for _, color in ipairs(colors) do
---     local ok, _ = pcall(vim.cmd.colorscheme, color)
---     if ok then
---       return
---     end
---   end
--- end
 
 return M
