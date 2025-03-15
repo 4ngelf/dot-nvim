@@ -1,8 +1,10 @@
---- Disabled lazyvim plugins
-local disabled_plugins = {
-
-}
-
-return vim.tbl_map(function(plugin_name)
+---@param plugin_name string
+local function disable(plugin_name)
   return { plugin_name, enabled = false }
-end, disabled_plugins)
+end
+
+return {
+  disable("bufferline.nvim"),
+  -- disable("mason.nvim"),
+  -- disable("mason-lspconfig.nvim "),
+}

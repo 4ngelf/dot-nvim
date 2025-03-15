@@ -1,36 +1,76 @@
 --- Initialization and utilities for configuration (c11n)
 local M = {}
 
-local Util = require("c11n.util")
+local util = require("c11n.util")
+local did_init = false
 
---- Current platform
-M.OS = "unknown"
-if Util.has("linux") or Util.has("unix") then
-  M.OS = "unix"
-elseif Util.has("win32") then
-  M.OS = "windows"
-elseif Util.has("wsl") then
-  M.OS = "wsl"
-end
+---@type string
+M.local_config_path = vim.fs.joinpath(vim.fn.stdpath("data") --[[@as string]], "neovim.local.lua")
 
---- Initialize editor configuration
-function M.init() 
-  local Lazy = require("c11n.lazy")
-  local Settings = require("c11n.settings")
+M.has = util.has
 
-  -- Try to setup lazyvim
-  if Lazy.status() == "ok" then
-    Lazy.setup()
-  else
-    require("c11n.fallback").init()
+--- Common for `init()` and `fallback()`
+local function prepare()
+  did_init = true
+
+  --- Load local machine configuration
+  --- TIP: see lazy.events to execute code in different stages of the configuration
+  local load_local = loadfile(M.local_config_path)
+  if load_local then
+    load_local()
   end
 
   -- Apply settings
-  Util.load_colorscheme(Settings.colorscheme)
-  vim.cmd.language(Settings.language)
+  local settings = require("c11n.settings")
+  vim.cmd.language(settings.language)
+end
+
+--- Initialize editor with fallback configuration
+function M.fallback()
+  if did_init then
+    return
+  end
+  prepare()
+
+  vim.notify("Running fallback configuration")
+
+  local settings = require("c11n.settings")
+  for plugin in ipairs(settings.disabled_plugins) do
+    vim.g["loaded_" .. plugin] = true
+  end
+
+  local ok_color = pcall(vim.cmd.colorscheme, settings.colorscheme)
+  if not ok_color then
+    vim.cmd.colorscheme("habamax")
+  end
+
+  require("config.basic.options")
+  require("config.basic.keymaps")
+  require("config.basic.autocmds")
+end
+
+--- Initialize editor configuration
+function M.init()
+  if did_init then
+    return
+  end
+  prepare()
+
+  -- Load configuration for external tools
+  require("lazy.core.util").lsmod("c11n.externals", function(modname, _)
+    require(modname)
+  end)
 
   -- Load management utilities
-  require('c11n.manage').init()
+  vim.api.nvim_create_autocmd("User", {
+    pattern = "VeryLazy",
+    callback = function(_)
+      require("c11n.manage").setup()
+    end,
+  })
+
+  -- delegate to lazy.nvim
+  require("c11n.lazy").setup()
 end
 
 return M

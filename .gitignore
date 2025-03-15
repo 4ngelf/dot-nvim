@@ -1,3 +1,6 @@
+# developer xdg directory
+/.xdg
+
 # Compiled Lua sources
 luac.out
 

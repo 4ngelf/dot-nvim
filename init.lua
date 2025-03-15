@@ -1,24 +1,51 @@
---[[
---# Neovim configuration entry point.
---
---This tells nvim how to find and load the configuration.
---]]
-
+-- Neovim configuration entry point.
 local nvim_version = "nvim-0.10.0"
-if vim.fn.has(nvim_version) == 0 then
-  vim.notify("ERROR: This configuration needs at least " .. nvim_version .. " to work properly.", vim.log.levels.ERROR)
-  return {}
+assert(vim.fn.has(nvim_version) == 1, "this configuration needs " .. nvim_version .. " or later")
+
+---@type string
+local LAZY_PATH = vim.fs.joinpath(vim.fn.stdpath("data") --[[@as string]], "lazy", "lazy.nvim")
+
+local function abort(msg)
+  vim.notify(msg .. "\n", vim.log.levels.ERROR)
+
+  local headless = #vim.api.nvim_list_uis() == 0
+  if headless then
+    os.exit(1)
+  else
+    require("c11n").fallback()
+  end
 end
 
-vim.uv = vim.uv or vim.loop
+local function initialize()
+  vim.opt.runtimepath:prepend(LAZY_PATH)
 
---- Will raise an error to indicate unfinished code.
----@param msg? string Optional message to indicate context
----@return any
-function todo(msg) 
-  msg = msg and ": "..msg or ""
-  error("Not yet implemented"..msg, 0)
+  if not pcall(require, "lazy") then
+    abort("lazy.nvim is broken. You should try again after erasing " .. LAZY_PATH)
+  end
+
+  -- Initialize configuration (c11n)
+  require("c11n").init()
 end
 
--- Initialize configuration (c11n)
-require("c11n").init()
+if vim.uv.fs_stat(LAZY_PATH) then
+  initialize()
+else
+  vim.system({
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "--branch=stable",
+    "https://github.com/folke/lazy.nvim.git",
+    LAZY_PATH,
+  }, {
+    text = true,
+    stdout = false,
+    stderr = false,
+  }, function(out)
+    if out.code == 0 then
+      vim.schedule(initialize)
+    else
+      abort("couldn't clone lazy.nvim")
+    end
+  end)
+end

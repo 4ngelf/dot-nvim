@@ -1,27 +1,26 @@
-<div align="center">
-
 # Neovim configuration
 
-</div>
+<!-- markdownlint-disable -->
+<img height="100" align="left" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/neovim/neovim-original.svg">
 
-This is my neovim configuration. The main goal I want to achieve is a configuration I can safely take
-anywhere without much overhead while being able to control the level complexity of the editor.
-
-## Goals
-
-- **Lightweight**: Just a subset of all plugins are available at first. The rest of can be installed anytime.
-- **Adaptable**: Extra tweaks are made on special environments like on Windows, GUI apps, remote, etc.
-- **Batteries**: Define options, mappings, autocmds and custom user commands to manage all.
-
-## Install
-
-Clone the repository.
+### Installation
+<!-- markdownlint-enable -->
 
 ```sh
 git clone https://github.com/4ngelf/dot-nvim.git "${XDG_CONFIG_HOME:-$HOME/.config}/nvim"
 ```
 
-See also: [`:help standard-path`][nvim.standardpaths.help]
+See also: [`:help standard-path`](https://neovim.io/doc/user/starting.html#_standard-paths)
 
-<!-- Links -->
-[nvim.standardpaths.help]: https://neovim.io/doc/user/starting.html#_standard-paths
+## Dependencies
+
+- [neovim] `>=0.10`
+- [git], [fzf], [ripgrep] and [fd]
+- C compiler: *`gcc` from gnu, `clang` from llvm, `cl.exe` from MSVC, `zig`, etc*
+- curl or wget
+
+[neovim]: https://neovim.io/
+[git]: https://git-scm.com/
+[fzf]: https://github.com/junegunn/fzf
+[ripgrep]: https://github.com/BurntSushi/ripgrep
+[fd]: https://github.com/sharkdp/fd

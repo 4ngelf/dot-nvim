@@ -1,0 +1,10 @@
+(?i)Neovim
+fzf
+fd
+ripgrep
+rg
+zig
+wget
+gcc
+llvm
+MSVC

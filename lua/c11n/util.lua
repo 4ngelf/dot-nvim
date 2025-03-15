@@ -1,27 +1,28 @@
 --- Utilities
 local M = {}
 
---- Checks feature availability. Fallbacks to vim.fn.has()
----@return bool
-function M.has(feature) 
-  if feature == "lazy" then
-    return require("c11n.lazy").status() == "ok"
-  else
-    return vim.fn.has(feature) == 1
-  end
-end
+---@alias c11n.Feature
+---| "windows"
+---| "termux"
+---| "neovide"
+---| "lazy"
+---| any
 
----Wraps any lua type into a table
----@param value any
----@param key? string Optional key for value in the table
----@return table wrapped Wrapped value
-function M.tbl_wrap(value, key)
-  if type(value) == "table" then
-    return value
-  elseif key ~= nil then
-    return { [key] = value }
+--- Checks feature availability. Extends vim.fn.has()
+---@param feature c11n.Feature
+---@return bool
+function M.has(feature)
+  local has = vim.fn.has
+  if feature == "windows" then
+    return has("win32") == 1 or has("win64") == 1
+  elseif feature == "termux" then
+    return vim.uv.fs_stat("/data/data/com.termux/files") ~= nil
+  elseif feature == "neovide" then
+    return vim.g.neovide ~= nil
+  elseif feature == "lazy" then
+    return package.loaded["lazy"] ~= nil
   else
-    return { value }
+    return has(feature) == 1
   end
 end
 
@@ -30,7 +31,7 @@ local function _make_logger(level, msg_prefix)
     if pcall(require, "lazy") then
       vim.notify(msg, level)
     else
-      vim.api.nvim_echo({ msg_prefix, {" "}, { msg } }, true, {})
+      vim.api.nvim_echo({ msg_prefix, { " " }, { msg } }, true, {})
     end
   end
 end
@@ -38,15 +39,15 @@ end
 local _log = {
   debug = _make_logger(vim.log.levels.DEBUG, { " DEBUG ", "Visual" }),
   error = _make_logger(vim.log.levels.ERROR, { " ERROR ", "ErrorMsg" }),
-  info  = _make_logger(vim.log.levels.INFO, { " INFO ", "Visual" }),
+  info = _make_logger(vim.log.levels.INFO, { " INFO ", "Visual" }),
   trace = _make_logger(vim.log.levels.TRACE, { " TRACE ", "Normal" }),
-  warn  = _make_logger(vim.log.levels.WARN, { " WARN ", "WarningMsg" }),
+  warn = _make_logger(vim.log.levels.WARN, { " WARN ", "WarningMsg" }),
 }
 
 M.log = setmetatable(_log, {
-  __call = function(t, msg) 
-    return t.info(msg)
-  end
+  __call = function(log, msg)
+    return log.info(msg)
+  end,
 })
 
 --TODO: Turn this into information for :checkhealth
@@ -70,20 +71,20 @@ M.log = setmetatable(_log, {
 
 --- Load first available colorscheme
 ---@param colors string|string[]|function
-function M.load_colorscheme(colors)
-  if type(colors) == "function" then
-    colors()
-    return
-  end
-
-  colors = M.tbl_wrap(colors)
-
-  for _, color in ipairs(colors) do
-    local ok, _ = pcall(vim.cmd.colorscheme, color)
-    if ok then
-      return 
-    end
-  end
-end
+-- function M.load_colorscheme(colors)
+--   if type(colors) == "function" then
+--     colors()
+--     return
+--   end
+--
+--   colors = type(colors) == "table" and colors or { colors }
+--
+--   for _, color in ipairs(colors) do
+--     local ok, _ = pcall(vim.cmd.colorscheme, color)
+--     if ok then
+--       return
+--     end
+--   end
+-- end
 
 return M
