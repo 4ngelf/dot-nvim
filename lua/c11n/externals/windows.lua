@@ -1,5 +1,5 @@
 --- Some adaptations for windows
-if not require("c11n").has "windows" then
+if not require("c11n").has("windows") then
   return
 end
 
