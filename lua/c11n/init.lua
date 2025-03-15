@@ -27,10 +27,10 @@ end
 
 --- Initialize editor with fallback configuration
 function M.fallback()
-  prepare()
   if did_init then
     return
   end
+  prepare()
 
   vim.notify("Running fallback configuration")
 
@@ -51,10 +51,10 @@ end
 
 --- Initialize editor configuration
 function M.init()
-  prepare()
   if did_init then
     return
   end
+  prepare()
 
   -- Load configuration for external tools
   require("lazy.core.util").lsmod("c11n.externals", function(modname, _)
