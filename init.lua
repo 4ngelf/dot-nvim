@@ -1,10 +1,14 @@
 -- Neovim configuration entry point.
-local nvim_version = "nvim-0.10.0"
-assert(vim.fn.has(nvim_version) == 1, "this configuration needs " .. nvim_version .. " or later")
+local nvim_version = "0.10.0"
+assert(
+  vim.fn.has("nvim-" .. nvim_version) == 1,
+  "this configuration needs at least neovim v" .. nvim_version .. " or greater"
+)
 
 ---@type string
 local LAZY_PATH = vim.fs.joinpath(vim.fn.stdpath("data") --[[@as string]], "lazy", "lazy.nvim")
 
+---@param msg string
 local function abort(msg)
   vim.notify(msg .. "\n", vim.log.levels.ERROR)
 
