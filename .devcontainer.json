@@ -1,0 +1,10 @@
+{
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+  "features": {
+    "ghcr.io/devcontainers-extra/features/neovim-apt-get:1": {},
+    "ghcr.io/guiyomh/features/just:0": {},
+    "ghcr.io/devcontainers-extra/features/ripgrep:1": {},
+    "ghcr.io/devcontainers-extra/features/fd:1": {},
+    "ghcr.io/eitsupi/devcontainer-features/nushell:0": {}
+  }
+}
