@@ -1,4 +1,6 @@
-(?i)Neovim
+[Nn]eovim
+nvim
+NVIM
 fzf
 fd
 ripgrep
