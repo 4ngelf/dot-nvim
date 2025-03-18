@@ -10,3 +10,4 @@ wget
 gcc
 llvm
 MSVC
+[Cc]odespaces
