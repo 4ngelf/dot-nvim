@@ -8,8 +8,11 @@ nvim_rtp := 'lua vim.opt.rtp:remove(vim.fn.stdpath("config")); vim.opt.rtp:prepe
 nvim := "nvim --cmd " + quote(nvim_rtp) + " -u ./init.lua"
 
 # run `nvim` using this configuration
-run *ARGS="./init.lua":
+run *ARGS:
     {{nvim}} {{ARGS}}
+
+# run `:Lazy! sync` and exit
+sync: (run "--headless '+Lazy! sync' +qa")
 
 # run tests with `busted`
 test:
@@ -25,4 +28,5 @@ alias fmt := format
 
 # clean `.xdg`
 clean:
-    rm -vrf {{quote(xdg)}}
+    rm -rf {{quote(xdg)}}
+    # Removed: {{xdg}}
