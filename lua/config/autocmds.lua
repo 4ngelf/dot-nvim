@@ -1,13 +1,13 @@
 -- Autocommands
 
 ---@param name string
+---@diagnostic disable-next-line: unused-function, unused-local
 local function augroup(name)
   return vim.api.nvim_create_augroup("c11n_" .. name, { clear = true })
 end
 
-vim.api.nvim_del_augroup_by_name("lazyvim_highlight_yank")
 vim.api.nvim_create_autocmd("TextYankPost", {
-  group = augroup("highlight_yank"),
+  group = vim.api.nvim_create_augroup("lazyvim_highlight_yank", { clear = true }),
   desc = "Highlight on yank",
   callback = function()
     (vim.hl or vim.highlight).on_yank({

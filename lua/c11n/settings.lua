@@ -29,31 +29,34 @@ local DEFAULT_SETTINGS = {
 }
 
 --- Get value of `vim.g.c11n_settings` if it is valid.
----@return c11n.Settings?
+---@return table
 local function get_user_settings()
+  if vim.g.c11n_settings ~= "table" then
+    return {}
+  end
+
   local user = vim.g.c11n_settings
   local is_valid, error = pcall(vim.validate, {
-    colorsheme = { user.colorscheme, "string" },
-    language = { user.language, "string" },
-    highlight_on_yank_timeout = { user.highlight_on_yank_timeout, "number" },
-    disabled_plugins = { user.disabled_plugins, "table" },
-    preset = { user.preset, { "string", "nil" } },
+    colorsheme = { user.colorscheme, "string", true },
+    language = { user.language, "string", true },
+    highlight_on_yank_timeout = { user.highlight_on_yank_timeout, "number", true },
+    disabled_plugins = { user.disabled_plugins, "table", true },
+    preset = { user.preset, "string", true },
   })
 
   if is_valid then
-    ---@cast user c11n.Settings
     return user
   else
     vim.notify(error, vim.log.levels.ERROR)
-    return nil
+    return {}
   end
 end
 
 --- Get current settings
 ---@return c11n.Settings
 function M.get()
-  local user_settings = get_user_settings() or {}
-  return vim.tbl_deep_extend("force", DEFAULT_SETTINGS, user_settings)
+  local user_settings = get_user_settings()
+  return vim.tbl_deep_extend("force", DEFAULT_SETTINGS, user_settings --[[@as c11n.Settings]])
 end
 
 return M

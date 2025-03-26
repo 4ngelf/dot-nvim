@@ -6,12 +6,12 @@ local did_init = false
 
 M.has = util.has
 
+---@type string
+M.local_config_path = vim.fs.joinpath(vim.fn.stdpath("data") --[[@as string]], "neovim.local.lua")
+
 --- Load local machine configuration.
 --- TIP: see `lazy.events` to execute code in different stages of the configuration
 local function load_local_config()
-  ---@type string
-  local local_config_path = vim.fs.joinpath(vim.fn.stdpath("data") --[[@as string]], "neovim.local.lua")
-
   local load_local = loadfile(M.local_config_path)
   if load_local then
     load_local()
@@ -19,7 +19,7 @@ local function load_local_config()
 end
 
 --- setup lazy.nvim
----@param c11n.Settings
+---@param settings c11n.Settings
 local function lazy_setup(settings)
   ---@type LazyVimOptions
   ---@diagnostic disable-next-line: missing-fields
@@ -68,6 +68,7 @@ local function lazy_setup(settings)
 
   -- add selected preset
   if settings.preset then
+    ---@diagnostic disable-next-line: param-type-mismatch
     table.insert(lazy_config.spec, { import = "plugins." .. settings.preset })
   end
 

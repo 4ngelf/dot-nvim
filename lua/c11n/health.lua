@@ -5,7 +5,7 @@ function M.check()
 
   vim.health.start("State")
 
-  vim.health.info("vim.env.NVIM_APPNAME = " .. vim.env.NVIM_APPNAME)
+  vim.health.info("vim.env.NVIM_APPNAME = " .. (vim.env.NVIM_APPNAME or "nil"))
   vim.health.info("current settings = " .. vim.inspect(settings))
 end
 
