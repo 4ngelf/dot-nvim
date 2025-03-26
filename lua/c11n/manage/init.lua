@@ -1,6 +1,5 @@
 --- Management for editor
 local M = {}
-local log = require("c11n.util").log
 
 ---@class c11n.CommandDefinition
 ---@field callback string|fun(opts: table)
@@ -28,9 +27,9 @@ local function main_command(opts)
 
     local result = subcommands:join("\n")
     if result ~= "" then
-      log("Available commands:\n" .. result)
+      vim.notify("Available commands:\n" .. result, vim.log.levels.INFO)
     else
-      log.error("No commands available")
+      vim.notify("No commands available", vim.log.levels.ERROR)
     end
     return
   end
@@ -44,7 +43,7 @@ local function main_command(opts)
   elseif type(callback) == "string" then
     vim.cmd(callback)
   else
-    log.error("Command " .. name .. " not found")
+    vim.notify("Command " .. name .. " not found", vim.log.levels.ERROR)
   end
 end
 

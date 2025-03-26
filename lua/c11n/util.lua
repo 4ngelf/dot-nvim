@@ -26,75 +26,30 @@ function M.has(feature)
   end
 end
 
-local function _make_logger(level, msg_prefix)
-  return function(msg)
-    if pcall(require, "lazy") then
-      vim.notify(msg, level)
-    else
-      vim.api.nvim_echo({ msg_prefix, { " " }, { msg } }, true, {})
-    end
+--- `vim.keymap.set` wrapper.
+--- The mode argument can be a string
+--- The third argument can be a string to put the description
+---
+--- ```lua
+--- -- This:
+--- keymap("nxt", "<C-e>", [[echo "hello"]], "prints hello")
+--- -- Is equivalent to:
+--- vim.keymap.set({ "n", "x", "t" }, "<C-e>", [[echo "hello"]], {
+---   desc = "prints hello"
+--- })
+--- ```
+---@param mode elem_or_list<string>
+---@param lhs string
+---@param rhs string | fun()
+---@param desc_or_opts string | vim.keymap.set.Opts
+function M.keymap(mode, lhs, rhs, desc_or_opts)
+  mode = type(mode) == "string" and vim.split(mode, "") or mode
+
+  if type(desc_or_opts) == "string" then
+    desc_or_opts = { desc = desc_or_opts }
   end
+
+  vim.keymap.set(mode, lhs, rhs, desc_or_opts)
 end
-
-local _log = {
-  debug = _make_logger(vim.log.levels.DEBUG, { " DEBUG ", "Visual" }),
-  error = _make_logger(vim.log.levels.ERROR, { " ERROR ", "ErrorMsg" }),
-  info = _make_logger(vim.log.levels.INFO, { " INFO ", "Visual" }),
-  trace = _make_logger(vim.log.levels.TRACE, { " TRACE ", "Normal" }),
-  warn = _make_logger(vim.log.levels.WARN, { " WARN ", "WarningMsg" }),
-}
-
-M.log = setmetatable(_log, {
-  __call = function(log, msg)
-    return log.info(msg)
-  end,
-})
-
---- vim.keymap.set wrapper
---- the third argument can be just a string to put the description
---- Example:
----   keymap.n(...) -- set normal
----   keymap.nv(...) -- set normal and visual
----   keymap.tci(...) -- set terminal, command and insert
----   keymap.nicvxsotl(...) -- Set in all modes
-M.keymap = setmetatable({}, {
-  __tostring = function(_)
-    return "vim.keymap.set"
-  end,
-  __index = function(_, mode)
-    mode = vim.split(mode, "")
-
-    -- ---@type fun(lhs: string, rhs:string|fun(), desc_or_opts: vim.keymap.set.Opts | string)
-    ---@param lhs string
-    ---@param rhs string | fun()
-    ---@param desc_or_opts string | vim.keymap.set.Opts
-    return function(lhs, rhs, desc_or_opts)
-      if type(desc_or_opts) == "string" then
-        desc_or_opts = { desc = desc_or_opts }
-      end
-
-      vim.keymap.set(mode, lhs, rhs, desc_or_opts)
-    end
-  end,
-})
-
---TODO: Turn this into information for :checkhealth
---
---- Notifications about nvim current state
--- M.run_notifications = vim.schedule_wrap(function()
---   messages = {}
---
---   if vim.env.NVIM_APPNAME then
---     table.insert(messages, {"Info: ", "Title"})
---     table.insert(messages, {("Using alternative configuration: %s\n"):format(vim.env.NVIM_APPNAME), "MsgArea"})
---   end
---
---   if not require("c11n.util").has("lazy") then
---     table.insert(messages, { "Warning: ", "WarningMsg"})
---     table.insert(messages, { "Lazy package manager is currently unused\n", "MsgArea"})
---   end
---
---   vim.api.nvim_echo(messages, true, {})
--- end)
 
 return M
