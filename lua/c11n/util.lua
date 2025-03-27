@@ -52,4 +52,51 @@ function M.keymap(mode, lhs, rhs, desc_or_opts)
   vim.keymap.set(mode, lhs, rhs, desc_or_opts)
 end
 
+--- Callback on user event
+---@param user_event string
+---@param description string
+---@param fn fun(ev: table)
+function M.on_user(user_event, description, fn)
+  vim.api.nvim_create_autocmd("User", {
+    pattern = user_event,
+    desc = description,
+    callback = fn,
+  })
+end
+
+--- Check if headless
+---@return boolean
+M.headless = require("lazy.core.config").headless
+
+--- Utilities plugin specs
+M.plugin = {}
+
+--- Spec of a disabled plugin
+--- Example:
+--- ```lua
+--- local spec = util.plugin.disable("bufferline.nvim")
+--- local expected = { "bufferline.nvim", enabled = false }
+---
+--- assert(vim.deep_equal(spec, expected))
+--- ```
+---@param plugin_name
+---@return LazySpec
+function M.plugin.disable(plugin_name)
+  return { plugin_name, enabled = false }
+end
+
+--- Spec of an imported lazyvim extra.
+--- Example:
+--- ```lua
+--- local spec = util.plugin.extra("lang.rust")
+--- local expected = { import = "lazyvim.plugins.extras.lang.rust" }
+---
+--- assert(vim.deep_equal(spec, expected))
+--- ```
+---@param extra_path string
+---@return LazySpecImport
+function M.plugin.extra(extra_path)
+  return { import = "lazyvim.plugins.extras." .. extra_path }
+end
+
 return M

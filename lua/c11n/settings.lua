@@ -26,22 +26,26 @@ local DEFAULT_SETTINGS = {
 
   ---@type string?
   preset = nil,
+
+  ---@type LazySpec
+  lazyspec = nil,
 }
 
 --- Get value of `vim.g.c11n_settings` if it is valid.
 ---@return table
 local function get_user_settings()
-  if vim.g.c11n_settings ~= "table" then
+  local user = vim.g.c11n_settings
+  if type(user) ~= "table" then
     return {}
   end
 
-  local user = vim.g.c11n_settings
   local is_valid, error = pcall(vim.validate, {
     colorsheme = { user.colorscheme, "string", true },
     language = { user.language, "string", true },
     highlight_on_yank_timeout = { user.highlight_on_yank_timeout, "number", true },
     disabled_plugins = { user.disabled_plugins, "table", true },
     preset = { user.preset, "string", true },
+    lazyspec = { user.lazyspec, "table", true },
   })
 
   if is_valid then

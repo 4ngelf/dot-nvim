@@ -21,29 +21,40 @@ end
 --- setup lazy.nvim
 ---@param settings c11n.Settings
 local function lazy_setup(settings)
-  ---@type LazyVimOptions
-  ---@diagnostic disable-next-line: missing-fields
-  local lazyvim_config = {
-    colorscheme = settings.colorscheme,
-    news = {
-      lazyvim = true,
-      neovim = true,
+  ---@type LazySpec
+  local lazy_spec = {
+    -- add LazyVim and import its plugins
+    {
+      "LazyVim/LazyVim",
+      import = "lazyvim.plugins",
+      opts = {
+        colorscheme = settings.colorscheme,
+        news = {
+          lazyvim = true,
+          neovim = true,
+        },
+      },
     },
+    -- default basic configuration
+    { import = "plugins._base" },
   }
+
+  -- add selected preset
+  if settings.preset then
+    ---@diagnostic disable-next-line: param-type-mismatch
+    table.insert(lazy_spec, { import = "plugins." .. settings.preset })
+  end
+
+  -- add selected preset
+  if settings.lazyspec then
+    ---@diagnostic disable-next-line: param-type-mismatch
+    vim.list_extend(lazy_spec, settings.lazyspec)
+    table.insert(lazy_spec, { import = "plugins" .. settings.preset })
+  end
 
   ---@type LazyConfig
   local lazy_config = {
-    spec = {
-      -- add LazyVim and import its plugins
-      {
-        "LazyVim/LazyVim",
-        import = "lazyvim.plugins",
-        opts = lazyvim_config,
-      },
-
-      -- add default plugins
-      { import = "plugins.base" },
-    },
+    spec = lazy_spec,
     defaults = {
       lazy = false,
       version = false, -- always use the latest git commit
@@ -62,12 +73,6 @@ local function lazy_setup(settings)
       },
     },
   }
-
-  -- add selected preset
-  if settings.preset then
-    ---@diagnostic disable-next-line: param-type-mismatch
-    table.insert(lazy_config.spec, { import = "plugins." .. settings.preset })
-  end
 
   require("lazy").setup(lazy_config)
 end
