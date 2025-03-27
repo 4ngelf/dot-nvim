@@ -25,9 +25,6 @@ local function lazy_setup(settings)
   ---@diagnostic disable-next-line: missing-fields
   local lazyvim_config = {
     colorscheme = settings.colorscheme,
-    defaults = {
-      autocmds = false,
-    },
     news = {
       lazyvim = true,
       neovim = true,
