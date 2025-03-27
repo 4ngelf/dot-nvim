@@ -54,12 +54,10 @@ end
 
 --- Callback on user event
 ---@param user_event string
----@param description string
 ---@param fn fun(ev: table)
-function M.on_user(user_event, description, fn)
+function M.on_user(user_event, fn)
   vim.api.nvim_create_autocmd("User", {
     pattern = user_event,
-    desc = description,
     callback = fn,
   })
 end

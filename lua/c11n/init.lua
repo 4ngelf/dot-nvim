@@ -10,17 +10,25 @@ M.has = util.has
 M.local_config_path = vim.fs.joinpath(vim.fn.stdpath("data") --[[@as string]], "neovim.local.lua")
 
 --- Load local machine configuration.
---- TIP: see `lazy.events` to execute code in different stages of the configuration
 local function load_local_config()
-  local load_local = loadfile(M.local_config_path)
-  if load_local then
-    load_local()
+  local extend_settings = require("c11n.settings").extend
+  local get_local_settings = loadfile(M.local_config_path)
+
+  if get_local_settings then
+    local local_settings = get_local_settings()
+    local ok, error = pcall(extend_settings, local_settings)
+    if not ok then
+      util.on_user("VeryLazy", function(_)
+        vim.notify(error, vim.log.levels.ERROR)
+      end)
+    end
   end
 end
 
 --- setup lazy.nvim
----@param settings c11n.Settings
-local function lazy_setup(settings)
+local function lazy_setup()
+  local settings = require("c11n.settings").get()
+
   ---@type LazySpec
   local lazy_spec = {
     -- add LazyVim and import its plugins
@@ -96,14 +104,11 @@ function M.init()
   end)
 
   -- Load management utilities
-  vim.api.nvim_create_autocmd("User", {
-    pattern = "VeryLazy",
-    callback = function(_)
-      require("c11n.manage").setup()
-    end,
-  })
+  util.on_user("VeryLazy", function(_)
+    require("c11n.manage").setup()
+  end)
 
-  lazy_setup(settings)
+  lazy_setup()
 end
 
 return M
