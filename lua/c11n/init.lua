@@ -57,7 +57,6 @@ local function lazy_setup()
   if settings.lazyspec then
     ---@diagnostic disable-next-line: param-type-mismatch
     vim.list_extend(lazy_spec, settings.lazyspec)
-    table.insert(lazy_spec, { import = "plugins" .. settings.preset })
   end
 
   ---@type LazyConfig
