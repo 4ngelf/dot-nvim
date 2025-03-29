@@ -42,7 +42,7 @@ local _settings = {
 
 --- Validates and merge settings on current settings
 ---@param settings c11n.Settings
-function M.extend(settings)
+function M.merge(settings)
   vim.validate({
     ["settings"] = { settings, "table" },
   })

@@ -69,7 +69,7 @@ local get_local_settings = loadfile(c11n.local_config_path)
 if get_local_settings then
   local local_settings = get_local_settings()
 
-  local ok, error = pcall(c11n.settings.extend, local_settings)
+  local ok, error = pcall(c11n.settings.merge, local_settings)
   if not ok then
     c11n.on_user("VeryLazy", function(_)
       vim.notify(error, vim.log.levels.ERROR)
