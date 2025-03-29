@@ -1,18 +1,31 @@
 local M = {}
 
----@class c11n.Settings
+---@module "lazy"
+
+--- Settings for configuration (c11n)
+---@class (exact) c11n.Settings
+---
+--- Preferred colorscheme
+---@field colorscheme string?
+---
+--- Sets language locale. Default: "en_US.utf-8"
+---@field language string?
+---
+--- Highlight on yank timeout
+---@field highlight_on_yank_timeout number?
+---
+--- Disabled built-in plugins
+---@field disabled_plugins string[]?
+---
+--- Custom preset of plugin configuration to use
+---@field preset string?
+---
+--- LazySpec to inject to lazy.nvim after importing all plugins.
+---@field lazyspec LazySpec?
 local _settings = {
-  --- Preferred colorscheme
-  ---@type string?
   colorscheme = "catppuccin-macchiato",
-
-  ---@type string?
   language = "en_US.utf-8",
-
-  ---@type number?
   highlight_on_yank_timeout = 1000,
-
-  ---@type string[]?
   disabled_plugins = {
     "gzip",
     -- "matchit",
@@ -23,19 +36,15 @@ local _settings = {
     -- "tutor",
     "zipPlugin",
   },
-
-  ---@type string?
   preset = nil,
-
-  ---@type LazySpec?
   lazyspec = nil,
 }
 
 --- Validates and merge settings on current settings
----@param settings C11n.Settings
+---@param settings c11n.Settings
 function M.extend(settings)
   vim.validate({
-    ["settings"] = { settings, "table" }
+    ["settings"] = { settings, "table" },
   })
   vim.validate({
     ["settings.colorsheme"] = { settings.colorscheme, "string", true },

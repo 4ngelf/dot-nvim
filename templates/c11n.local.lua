@@ -1,3 +1,5 @@
+---@module "c11n"
+
 -- Useful events:
 -- - VeryLazy: After LazyDone and VimEnter autocmds
 -- - LazyVimOptionsDefaults: after loading default options
@@ -7,7 +9,7 @@
 -- - LazyVimAutocmdsDefaults: after loading default autocmds
 -- - LazyVimAutocmds: after loading user autocmds
 --
--- local on = require("c11n.util").on_user
+-- local on = require("c11n").on_user
 -- on("LazyVimOptions", function(ev)
 --   -- Set options. They will not be overwritten by the configuration
 -- end)

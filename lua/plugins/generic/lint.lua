@@ -1,3 +1,6 @@
+---@module "lazy"
+
+---@type LazySpec
 return {
   {
     "williamboman/mason-lspconfig.nvim",

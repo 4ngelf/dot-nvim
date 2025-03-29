@@ -1,3 +1,5 @@
+---@module "lazy"
+
 local extra = require("c11n.util").plugin.extra
 
 return {
@@ -7,5 +9,5 @@ return {
   extra("lang.toml"),
   extra("lang.yaml"),
   extra("lang.zig"),
-  extra("test.core")
+  extra("test.core"),
 }
