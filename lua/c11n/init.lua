@@ -8,6 +8,6 @@ M.on_user = M.util.on_user
 M.settings = require("c11n.settings")
 
 ---@type string
-M.local_config_path = vim.fs.joinpath(vim.fn.stdpath("data") --[[@as string]], "neovim.local.lua")
+M.local_config_path = vim.fn.stdpath("data") .. "/c11n.local.lua"
 
 return M

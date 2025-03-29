@@ -62,6 +62,14 @@ function M.on_user(user_event, fn)
   })
 end
 
+--- Get a template file from `stdpath("config").."/templates"`
+---@param file string
+---@return PathlibPath
+function M.template(file)
+  local Path = require("pathlib")
+  return Path.stdpath("config", "templates", file)
+end
+
 --- Check if headless
 ---@return boolean
 M.headless = require("lazy.core.config").headless
@@ -77,10 +85,10 @@ M.plugin = {}
 ---
 --- assert(vim.deep_equal(spec, expected))
 --- ```
----@param plugin_name
+---@param name string
 ---@return LazySpec
-function M.plugin.disable(plugin_name)
-  return { plugin_name, enabled = false }
+function M.plugin.disable(name)
+  return { name, enabled = false }
 end
 
 --- Spec of an imported lazyvim extra.
