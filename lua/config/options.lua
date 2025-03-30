@@ -6,9 +6,21 @@ vim.g.lazyvim_cmp = "blink.cmp"
 vim.g.lazyvim_picker = "snacks"
 vim.g.lazyvim_python_lsp = "basedpyright"
 
-LazyVim.terminal.setup("pwsh")
--- TODO: Configure nushell
--- fallback to either powershell or bash depending on the OS
+local c11n = require("c11n")
+local shells
+if c11n.has("windows") then
+  shells = { "nu", "pwsh", "powershell" }
+else
+  shells = { "nu", "zsh", "bash" }
+end
+
+for _, shell in ipairs(shells) do
+  if vim.fn.executable(shell) then
+    vim.go.shell = shell
+    c11n.util.try_set_shell_options()
+    break
+  end
+end
 
 -- Options
 local o = vim.opt

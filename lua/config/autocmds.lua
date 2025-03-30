@@ -15,3 +15,12 @@ vim.api.nvim_create_autocmd("TextYankPost", {
     })
   end,
 })
+
+vim.api.nvim_create_autocmd("OptionSet", {
+  group = augroup("set_shell_options"),
+  desc = "Set options for a shell",
+  pattern = "shell",
+  callback = function(_)
+    require("c11n").util.try_set_shell_options()
+  end,
+})

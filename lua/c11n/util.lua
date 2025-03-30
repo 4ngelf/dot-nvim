@@ -6,6 +6,11 @@ local M = {}
 ---| "termux"
 ---| "neovide"
 ---| "lazy"
+---| "linux"
+---| "unix"
+---| "wsl"
+---| "win64"
+---| "win32"
 ---| any
 
 --- Checks feature availability. Extends vim.fn.has()
@@ -68,6 +73,91 @@ end
 function M.template(file)
   local Path = require("pathlib")
   return Path.stdpath("config", "templates", file)
+end
+
+do
+  ---@class c11n.ShellOptions
+  ---@field shellcmdflag? string
+  ---@field shellpipe? string
+  ---@field shellquote? string
+  ---@field shellredir? string
+  ---@field shelltemp? boolean
+  ---@field shellxescape? string
+  ---@field shellxquote? string
+
+  ---@type table<string, c11n.ShellOptions>
+  local _shell = {
+    nu = {
+      shellcmdflag = "--stdin --no-newline -c",
+      shellredir = "out+err> %s",
+      shellpipe = "| complete "
+        .. "| update stderr { ansi strip } "
+        .. "| tee { get stderr | save --force --raw %s } "
+        .. "| into record",
+      shelltemp = false,
+      shellxquote = "",
+      shellquote = "",
+    },
+    powershell = {
+      shellcmdflag = "-NoLogo -NonInteractive -ExecutionPolicy RemoteSigned -Command "
+        .. "[Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.UTF8Encoding]::new();"
+        .. "$PSDefaultParameterValues['Out-File:Encoding']='utf8';"
+        .. "$PSStyle.OutputRendering='plaintext';"
+        .. "Remove-Alias -Force -ErrorAction SilentlyContinue tee;",
+      shellredir = '2>&1 | %%{ "$_" } | Out-File %s; exit $LastExitCode',
+      shellpipe = '2>&1 | %%{ "$_" } | tee %s; exit $LastExitCode',
+      shelltemp = true,
+      shellquote = "",
+      shellxquote = "",
+    },
+    bash = {
+      shellcmdflag = "-c",
+      shellpipe = M.has("windows") and "2>&1 | tee" or "| tee",
+      shellquote = M.has("windows") and '"' or "",
+      shellredir = ">%s 2>&1",
+      shelltemp = true,
+      shellxescape = "",
+      shellxquote = M.has("windows") and '"' or "",
+    },
+  }
+  --- Options are the same
+  _shell.pwsh = _shell.powershell
+  _shell.zsh = _shell.bash
+
+  ---@param shell string
+  local function set_shell_options(shell)
+    local function set(opt)
+      local opt_value = _shell[shell][opt]
+      if opt_value then
+        vim.go[opt] = opt_value
+      end
+    end
+
+    set("shellcmdflag")
+    set("shellpipe")
+    set("shellquote")
+    set("shellredir")
+    set("shelltemp")
+    set("shellxescape")
+    set("shellxquote")
+  end
+
+  --- Set optimized 'shell*' options is a 'shell' is known
+  --- 'shell' must be set ahead of time.
+  ---@return boolean success Whether shell is known and options were set
+  function M.try_set_shell_options()
+    ---@type string
+    local exename = (vim.go.shell --[[@as string]]):match(".-([^\\/]-%.?[^%.\\/]*)$")
+
+    for shell, _ in pairs(_shell) do
+      if exename:match("^" .. shell) then
+        set_shell_options(shell)
+        return true
+      end
+    end
+
+    return false
+  end
 end
 
 --- Check if headless
