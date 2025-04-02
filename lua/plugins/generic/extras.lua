@@ -6,6 +6,7 @@ return {
   extra("lang.json"),
   extra("lang.markdown"),
   extra("lang.rust"),
+  extra("lang.python"),
   extra("lang.toml"),
   extra("lang.yaml"),
   extra("lang.zig"),
